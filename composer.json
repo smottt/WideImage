@@ -1,6 +1,6 @@
 {
     "name": "smottt/wideimage",
-    "description": "An open-source PHP library for image manipulation",
+    "description": "An open-source PHP library for image manipulation. (With namespaces, PHP 5.3+)",
     "homepage": "http://wideimage.sourceforge.net",
     "type": "library",
     "license": ["GPL-2.0","LGPL-2.1"],
