@@ -7,7 +7,7 @@
     "version": "11.02.19",
     "autoload": {
         "psr-0" : {
-          "WideImage" : "WideImage/",
+          "WideImage" : "lib/"
         }
     }
 }
