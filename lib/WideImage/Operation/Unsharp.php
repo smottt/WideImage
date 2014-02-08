@@ -37,11 +37,11 @@ class Unsharp
 	/**
 	 * Returns sharpened image
 	 *
-	 * @param WideImage_Image $image
+	 * @param \WideImage\Image $image
 	 * @param float $amount
 	 * @param int $radius
 	 * @param float $threshold
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 */
 	public function execute($image, $amount, $radius, $threshold)
 	{

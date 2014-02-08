@@ -89,7 +89,7 @@ class WideImage
 	 * 
 	 * Example:
 	 * <code>
-	 * 	WideImage::registerCustomMapper('WideImage_Mapper_TGA', 'image/tga', 'tga');
+	 * 	\WideImage\WideImage::registerCustomMapper('\\WideImage\\Mapper\\TGA', 'image/tga', 'tga');
 	 * </code>
 	 * 
 	 * @param string $mapper_class_name
@@ -124,7 +124,7 @@ class WideImage
 	 * </code>
 	 * 
 	 * @param mixed $source File name, url, HTML file input field name, binary string, or a GD image resource
-	 * @return WideImage_Image WideImage_PaletteImage or WideImage_TrueColorImage instance
+	 * @return \WideImage\Image|\WideImage\PaletteImage|\WideImage\TrueColorImage
 	 */
 	public static function load($source)
 	{
@@ -171,7 +171,7 @@ class WideImage
 	 * Create and load an image from a file or URL. The image format is auto-detected.
 	 * 
 	 * @param string $uri File or url
-	 * @return WideImage_Image WideImage_PaletteImage or WideImage_TrueColorImage instance
+	 * @return \WideImage\Image|\WideImage\PaletteImage|\WideImage\TrueColorImage
 	 */
 	public static function loadFromFile($uri)
 	{
@@ -216,7 +216,7 @@ class WideImage
 	 * Create and load an image from a string. Format is auto-detected.
 	 * 
 	 * @param string $string Binary data, i.e. from BLOB field in the database
-	 * @return WideImage_Image WideImage_PaletteImage or WideImage_TrueColorImage instance
+	 * @return \WideImage\Image|\WideImage\PaletteImage|\WideImage\TrueColorImage
 	 */
 	public static function loadFromString($string)
 	{
@@ -253,7 +253,7 @@ class WideImage
 	 * handle. When the newly-created image object is destroyed, the handle is 
 	 * destroyed too, so it's not a valid image handle anymore. In order to 
 	 * preserve the handle for use after object destruction, you have to call 
-	 * WideImage_Image::releaseHandle() on the created image instance prior to its
+	 * \WideImage\Image::releaseHandle() on the created image instance prior to its
 	 * destruction.
 	 * 
 	 * <code>
@@ -262,7 +262,7 @@ class WideImage
 	 * </code>
 	 * 
 	 * @param resource $handle A valid GD image resource
-	 * @return WideImage_Image WideImage_PaletteImage or WideImage_TrueColorImage instance
+	 * @return \WideImage\Image|\WideImage\PaletteImage|\WideImage\TrueColorImage
 	 */
 	public static function loadFromHandle($handle)
 	{
@@ -286,7 +286,7 @@ class WideImage
 	 * 
 	 * @param $field_name Name of the key in $_FILES array
 	 * @param int $index The index of the file to load (if the input field is an array)
-	 * @return WideImage_Image The loaded image
+	 * @return \WideImage\Image The loaded image
 	 */
 	public static function loadFromUpload($field_name, $index = null)
 	{
@@ -322,7 +322,7 @@ class WideImage
 	 * 
 	 * @param int $width
 	 * @param int $height
-	 * @return WideImage_PaletteImage
+	 * @return \WideImage\PaletteImage
 	 */
 	public static function createPaletteImage($width, $height)
 	{
@@ -334,7 +334,7 @@ class WideImage
 	 * 
 	 * @param int $width
 	 * @param int $height
-	 * @return WideImage_TrueColorImage
+	 * @return \WideImage\TrueColorImage
 	 */
 	public static function createTrueColorImage($width, $height)
 	{

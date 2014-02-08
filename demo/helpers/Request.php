@@ -97,7 +97,7 @@
 		function getCoordinate($key, $default = 0)
 		{
 			$v = self::get($key);
-			if (strlen($v) > 0 && WideImage_Coordinate::parse($v) !== null)
+			if (strlen($v) > 0 && \WideImage\Coordinate::parse($v) !== null)
 				return self::get($key);
 			else
 				return $default;

@@ -42,12 +42,12 @@ class ApplyFilter
 	/**
 	 * Executes imagefilter
 	 *
-	 * @param WideImage_Image $image
+	 * @param \WideImage\Image $image
 	 * @param int $filter 
 	 * @param numeric $arg1
 	 * @param numeric $arg2
 	 * @param numeric $arg3
-	 * @return WideImage_TrueColorImage
+	 * @return \WideImage\TrueColorImage
 	 */
 	public function execute($image, $filter, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null)
 	{

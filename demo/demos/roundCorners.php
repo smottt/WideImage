@@ -26,16 +26,16 @@
 			
 			$corners = 0;
 			if ($this->fval('top-left'))
-				$corners += WideImage::SIDE_TOP_LEFT;
+				$corners += \WideImage\WideImage::SIDE_TOP_LEFT;
 			
 			if ($this->fval('top-right'))
-				$corners += WideImage::SIDE_TOP_RIGHT;
+				$corners += \WideImage\WideImage::SIDE_TOP_RIGHT;
 			
 			if ($this->fval('bottom-right'))
-				$corners += WideImage::SIDE_BOTTOM_RIGHT;
+				$corners += \WideImage\WideImage::SIDE_BOTTOM_RIGHT;
 			
 			if ($this->fval('bottom-left'))
-				$corners += WideImage::SIDE_BOTTOM_LEFT;
+				$corners += \WideImage\WideImage::SIDE_BOTTOM_LEFT;
 			
 			return $image->roundCorners($radius, $color ? hexdec($color) : null, $smoothness, $corners);
 		}

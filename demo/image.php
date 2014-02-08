@@ -4,11 +4,10 @@
 	 */
 	
 	require_once dirname(__FILE__) . '/helpers/common.php';
-	require_once dirname(__FILE__) . '/../lib/WideImage.php';
 	
 	$request = Request::getInstance();
 	$demo = Demo::create($request->get('demo'));
-	$image = WideImage::load('images/' . $request->get('image'));
+	$image = \WideImage\WideImage::load('images/' . $request->get('image'));
 	
 	$result = $demo->execute($image, $request);
 	

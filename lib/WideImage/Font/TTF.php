@@ -46,7 +46,7 @@ class TTF
 	/**
 	 * Writes text onto an image
 	 * 
-	 * @param WideImage_Image $image
+	 * @param \WideImage\Image $image
 	 * @param mixed $x smart coordinate
 	 * @param mixed $y smart coordinate
 	 * @param string $text

@@ -35,10 +35,10 @@ class CorrectGamma
 	/**
 	 * Executes imagegammacorrect()
 	 *
-	 * @param WideImage_Image $image
+	 * @param \WideImage\Image $image
 	 * @param numeric $input_gamma
 	 * @param numeric $output_gamma
-	 * @return WideImage_TrueColorImage
+	 * @return \WideImage\TrueColorImage
 	 */
 	public function execute($image, $input_gamma, $output_gamma) {
 		$new = $image->copy();

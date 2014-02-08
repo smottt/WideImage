@@ -35,11 +35,11 @@ class ApplyConvolution
 	/**
 	 * Executes imageconvolution() filter
 	 *
-	 * @param WideImage_Image $image
+	 * @param \WideImage\Image $image
 	 * @param array $matrix
 	 * @param numeric $div
 	 * @param numeric $offset
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 */
 	public function execute($image, $matrix, $div, $offset)
 	{

@@ -37,9 +37,9 @@ class CopyChannelsPalette
 	/**
 	 * Returns an image with only specified channels copied
 	 *
-	 * @param WideImage_PaletteImage $img
+	 * @param \WideImage\PaletteImage $img
 	 * @param array $channels
-	 * @return WideImage_PaletteImage
+	 * @return \WideImage\PaletteImage
 	 */
 	public function execute($img, $channels)
 	{

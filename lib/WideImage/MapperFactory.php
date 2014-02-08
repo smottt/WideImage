@@ -50,7 +50,7 @@ abstract class MapperFactory
 	 * 
 	 * @param string $uri File URI
 	 * @param string $format File format (extension or mime-type) or null
-	 * @return WideImage_Mapper
+	 * @return mixed
 	 **/
 	public static function selectMapper($uri, $format = null)
 	{

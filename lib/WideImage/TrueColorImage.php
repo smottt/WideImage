@@ -48,7 +48,7 @@ class TrueColorImage extends Image
 	 *
 	 * @param int $width
 	 * @param int $height
-	 * @return WideImage_TrueColorImage
+	 * @return \WideImage\TrueColorImage
 	 */
 	public static function create($width, $height)
 	{
@@ -114,7 +114,7 @@ class TrueColorImage extends Image
 	}
 	
 	/**
-	 * @see WideImage_Image#asPalette($nColors, $dither, $matchPalette)
+	 * @see \WideImage\Image#asPalette($nColors, $dither, $matchPalette)
 	 */
 	public function asPalette($nColors = 255, $dither = null, $matchPalette = true)
 	{
@@ -199,7 +199,7 @@ class TrueColorImage extends Image
 	}
 	
 	/**
-	 * @see WideImage_Image#getChannels()
+	 * @see \WideImage\Image#getChannels()
 	 */
 	public function getChannels()
 	{
@@ -214,7 +214,7 @@ class TrueColorImage extends Image
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see WideImage_Image#copyNoAlpha()
+	 * @see \WideImage\Image#copyNoAlpha()
 	 */
 	public function copyNoAlpha()
 	{
@@ -227,7 +227,7 @@ class TrueColorImage extends Image
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see WideImage_Image#asTrueColor()
+	 * @see \WideImage\Image#asTrueColor()
 	 */
 	public function asTrueColor()
 	{

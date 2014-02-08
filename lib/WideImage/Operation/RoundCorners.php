@@ -33,11 +33,11 @@ use WideImage\WideImage;
 class RoundCorners
 {
 	/**
-	 * @param WideImage_Image $image
+	 * @param \WideImage\Image $image
 	 * @param int $radius
 	 * @param int $color
 	 * @param int $smoothness
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 */
 	public function execute($image, $radius, $color, $smoothness, $corners)
 	{

@@ -36,9 +36,9 @@ class CopyChannelsTrueColor {
 	/**
 	 * Returns an image with only specified channels copied
 	 * 
-	 * @param WideImage_Image $img
+	 * @param \WideImage\Image $img
 	 * @param array $channels
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 */
 	public function execute($img, $channels)
 	{

@@ -16,7 +16,7 @@
 		
 		function execute($image, $request)
 		{
-			$overlay = WideImage::load(DEMO_PATH . 'images/' . $this->fields['overlay']->value);
+			$overlay = \WideImage\WideImage::load(DEMO_PATH . 'images/' . $this->fields['overlay']->value);
 			$left = $this->fields['left']->value;
 			$top = $this->fields['top']->value;
 			$opacity = $this->fields['opacity']->value;
