@@ -38,7 +38,7 @@ class ResizeCanvas
 	 * 
 	 * The image is filled with $color. Use $scale to determine, when to resize.
 	 *
-	 * @param WideImage_Image $img
+	 * @param \WideImage\Image $img
 	 * @param smart_coordinate $width
 	 * @param smart_coordinate $height
 	 * @param smart_coordinate $left
@@ -46,7 +46,7 @@ class ResizeCanvas
 	 * @param int $color
 	 * @param string $scale 'up', 'down', 'any'
 	 * @param boolean $merge
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 */
 	public function execute($img, $width, $height, $left, $top, $color, $scale, $merge)
 	{

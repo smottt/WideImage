@@ -36,7 +36,7 @@ class PaletteImage extends Image
 	 *
 	 * @param int $width
 	 * @param int $height
-	 * @return WideImage_PaletteImage
+	 * @return \WideImage\PaletteImage
 	 */
 	public static function create($width, $height)
 	{
@@ -54,7 +54,7 @@ class PaletteImage extends Image
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see WideImage_Image#isTrueColor()
+	 * @see \WideImage\Image#isTrueColor()
 	 */
 	public function isTrueColor()
 	{
@@ -63,7 +63,7 @@ class PaletteImage extends Image
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see WideImage_Image#asPalette($nColors, $dither, $matchPalette)
+	 * @see \WideImage\Image#asPalette($nColors, $dither, $matchPalette)
 	 */
 	public function asPalette($nColors = 255, $dither = null, $matchPalette = true)
 	{
@@ -74,7 +74,7 @@ class PaletteImage extends Image
 	 * Returns a copy of the image
 	 * 
 	 * @param $trueColor True if the new image should be truecolor
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 */
 	protected function copyAsNew($trueColor = false)
 	{
@@ -105,7 +105,7 @@ class PaletteImage extends Image
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see WideImage_Image#asTrueColor()
+	 * @see \WideImage\Image#asTrueColor()
 	 */
 	public function asTrueColor()
 	{
@@ -126,7 +126,7 @@ class PaletteImage extends Image
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see WideImage_Image#getChannels()
+	 * @see \WideImage\Image#getChannels()
 	 */
 	public function getChannels()
 	{
@@ -141,7 +141,7 @@ class PaletteImage extends Image
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see WideImage_Image#copyNoAlpha()
+	 * @see \WideImage\Image#copyNoAlpha()
 	 */
 	public function copyNoAlpha()
 	{

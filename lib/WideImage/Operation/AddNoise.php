@@ -34,11 +34,11 @@ class AddNoise
 	/**
 	 * Returns image with noise added
 	 *
-	 * @param WideImage_Image $image
+	 * @param \WideImage\Image $image
 	 * @param float $amount
 	 * @param const $type
 	 * @param float $threshold
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 */
 	public function execute($image, $amount, $type) {
 		switch ($type) {
@@ -59,10 +59,10 @@ class AddNoise
 	/**
 	 * Returns image with every pixel changed by specififed function
 	 *
-	 * @param WideImage_Image $image
+	 * @param \WideImage\Image $image
 	 * @param str $function
 	 * @param int $value
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 */
 	public function filter($image, $function, $value)
 	{

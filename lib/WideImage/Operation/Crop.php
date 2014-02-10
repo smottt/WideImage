@@ -38,12 +38,12 @@ class Crop
 	/**
 	 * Returns a cropped image
 	 *
-	 * @param WideImage_Image $img
+	 * @param \WideImage\Image $img
 	 * @param smart_coordinate $left
 	 * @param smart_coordinate $top
 	 * @param smart_coordinate $width
 	 * @param smart_coordinate $height
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 */
 	public function execute($img, $left, $top, $width, $height)
 	{

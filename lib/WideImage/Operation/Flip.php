@@ -35,8 +35,8 @@ class Flip
 	/**
 	 * Returns a flipped image
 	 *
-	 * @param WideImage_Image $image
-	 * @return WideImage_Image
+	 * @param \WideImage\Image $image
+	 * @return \WideImage\Image
 	 */
 	public function execute($image)
 	{

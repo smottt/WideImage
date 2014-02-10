@@ -1,7 +1,7 @@
 <?php
-include('../lib/WideImage.php');
+include 'helpers/common.php';
 
-$img = WideImage::createTrueColorImage(400, 200);
+$img = \WideImage\WideImage::createTrueColorImage(400, 200);
 $canvas = $img->getCanvas();
 $canvas->useFont('fonts/Vera.ttf', 36, $img->allocateColor(255, 0, 0));
 $canvas->writeText('left', 'top', 'abc', 0);

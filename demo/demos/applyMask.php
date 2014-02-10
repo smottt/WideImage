@@ -18,7 +18,7 @@
 		
 		function execute($image)
 		{
-			$mask = WideImage::load(DEMO_PATH . 'masks/' . $this->fields['mask']->value);
+			$mask = \WideImage\WideImage::load(DEMO_PATH . 'masks/' . $this->fields['mask']->value);
 			$left = $this->fields['left']->value;
 			$top = $this->fields['top']->value;
 			

@@ -40,9 +40,9 @@ class Canvas
 	/**
 	 * Creates a canvas object that writes to the image passed as a parameter
 	 *
-	 * Shouldn't be used directly, use WideImage_Image::getCanvas() instead.
+	 * Shouldn't be used directly, use \WideImage\Image::getCanvas() instead.
 	 *
-	 * @param WideImage_Image $img Image object
+	 * @param \WideImage\Image $img Image object
 	 */
 	public function __construct($img)
 	{
@@ -52,7 +52,7 @@ class Canvas
 	
 	/**
 	 * Sets the active font. Can be an instance of 
-	 * WideImage_Font_TTF, WideImage_Font_PS, or WideImage_Font_GDF.
+	 * \WideImage\Font\TTF, \WideImage\Font\PS, or \WideImage\Font\GDF.
 	 * 
 	 * @param object $font Font object to set for writeText()
 	 */
@@ -73,7 +73,7 @@ class Canvas
 	 * @param int $size Font size (supported for TTF/OTF and PS fonts, ignored for GDF)
 	 * @param int $color Text color
 	 * @param int $bgcolor Background color (supported only for PS font, ignored for TTF and PS)
-	 * @return mixed One of the WideImage_Font_* objects
+	 * @return mixed One of the \WideImage\Font\* objects
 	 */
 	public function useFont($file, $size = 12, $color = 0, $bgcolor = null)
 	{
@@ -102,7 +102,7 @@ class Canvas
 	/**
 	 * Write text on the image at specified position
 	 * 
-	 * You must set a font with a call to WideImage_Canvas::setFont() prior to writing text to the image.
+	 * You must set a font with a call to \WideImage\Canvas::setFont() prior to writing text to the image.
 	 * 
 	 * Smart coordinates are supported for $x and $y arguments, but currently only for TTF/OTF fonts.
 	 * 

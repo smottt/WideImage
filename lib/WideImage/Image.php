@@ -47,7 +47,7 @@ abstract class Image
 	
 	/**
 	 * Canvas object
-	 * @var WideImage_Canvas
+	 * @var \WideImage\Canvas
 	 */
 	protected $canvas = null;
 	
@@ -70,7 +70,7 @@ abstract class Image
 	/**
 	 * Cleanup
 	 * 
-	 * Destroys the handle via WideImage_Image::destroy() when called by the GC.
+	 * Destroys the handle via \WideImage\Image::destroy() when called by the GC.
 	 */
 	public function __destruct()
 	{
@@ -160,7 +160,7 @@ abstract class Image
 	/**
 	 * Returns binary string with image data in format specified by $format
 	 * 
-	 * Additional parameters may be passed to the function. See WideImage_Image::saveToFile() for more details.
+	 * Additional parameters may be passed to the function. See \WideImage\Image::saveToFile() for more details.
 	 * 
 	 * @param string $format The format of the image
 	 * @return string The binary image data in specified format
@@ -453,7 +453,7 @@ abstract class Image
 	 * the areas with the transparent color will be black. For images with alpha channel transparenct, 
 	 * the result will be alpha channel.
 	 * 
-	 * @return WideImage_Image An image mask
+	 * @return \WideImage\Image An image mask
 	 **/
 	public function getMask()
 	{
@@ -492,7 +492,7 @@ abstract class Image
 	 * @param mixed $height The new height (smart coordinate), or null.
 	 * @param string $fit 'inside', 'outside', 'fill'
 	 * @param string $scale 'down', 'up', 'any'
-	 * @return WideImage_Image The resized image
+	 * @return \WideImage\Image The resized image
 	 */
 	public function resize($width = null, $height = null, $fit = 'inside', $scale = 'any')
 	{
@@ -500,13 +500,13 @@ abstract class Image
 	}
 	
 	/**
-	 * Same as WideImage_Image::resize(), but the image is only applied if it is larger then the given dimensions.
+	 * Same as \WideImage\Image::resize(), but the image is only applied if it is larger then the given dimensions.
 	 * Otherwise, the resulting image retains the source's dimensions.
 	 * 
 	 * @param int $width New width, smart coordinate
 	 * @param int $height New height, smart coordinate
 	 * @param string $fit 'inside', 'outside', 'fill'
-	 * @return WideImage_Image resized image
+	 * @return \WideImage\Image resized image
 	 */
 	public function resizeDown($width = null, $height = null, $fit = 'inside')
 	{
@@ -514,13 +514,13 @@ abstract class Image
 	}
 	
 	/**
-	 * Same as WideImage_Image::resize(), but the image is only applied if it is smaller then the given dimensions.
+	 * Same as \WideImage\Image::resize(), but the image is only applied if it is smaller then the given dimensions.
 	 * Otherwise, the resulting image retains the source's dimensions.
 	 * 
 	 * @param int $width New width, smart coordinate
 	 * @param int $height New height, smart coordinate
 	 * @param string $fit 'inside', 'outside', 'fill'
-	 * @return WideImage_Image resized image
+	 * @return \WideImage\Image resized image
 	 */
 	public function resizeUp($width = null, $height = null, $fit = 'inside')
 	{
@@ -535,7 +535,7 @@ abstract class Image
 	 * @param int $angle Angle in degrees, clock-wise
 	 * @param int $bgColor color of the new background
 	 * @param bool $ignoreTransparent
-	 * @return WideImage_Image The rotated image
+	 * @return \WideImage\Image The rotated image
 	 */
 	public function rotate($angle, $bgColor = null, $ignoreTransparent = true)
 	{
@@ -555,11 +555,11 @@ abstract class Image
 	 * // applies a logo aligned to bottom-right corner with a 10 pixel margin
 	 * </code>
 	 * 
-	 * @param WideImage_Image $overlay The overlay image
+	 * @param \WideImage\Image $overlay The overlay image
 	 * @param mixed $left Left position of the overlay, smart coordinate
 	 * @param mixed $top Top position of the overlay, smart coordinate
 	 * @param int $pct The opacity of the overlay
-	 * @return WideImage_Image The merged image
+	 * @return \WideImage\Image The merged image
 	 */
 	public function merge($overlay, $left = 0, $top = 0, $pct = 100)
 	{
@@ -600,7 +600,7 @@ abstract class Image
 	 * @param int $bg_color Background color (created with allocateColor or allocateColorAlpha), defaults to null (tries to use a transparent color)
 	 * @param string $scale Possible values: 'up' (enlarge only), 'down' (downsize only), 'any' (resize precisely to $width x $height). Defaults to 'any'.
 	 * @param bool $merge Merge the original image (flatten alpha channel and transparency) or copy it over (preserve). Defaults to false.
-	 * @return WideImage_Image The resulting image with resized canvas
+	 * @return \WideImage\Image The resulting image with resized canvas
 	 */
 	public function resizeCanvas($width, $height, $pos_x, $pos_y, $bg_color = null, $scale = 'any', $merge = false)
 	{
@@ -638,7 +638,7 @@ abstract class Image
 	 * @param int $color The color of corners. If null, corners are rendered transparent (slower than using a solid color).
 	 * @param int $smoothness Specify the level of smoothness. Suggested values from 1 to 4.
 	 * @param int $corners Specify which corners to draw (defaults to WideImage::SIDE_ALL = all corners)
-	 * @return WideImage_Image The resulting image with round corners
+	 * @return \WideImage\Image The resulting image with round corners
 	 */
 	public function roundCorners($radius, $color = null, $smoothness = 2, $corners = 255)
 	{
@@ -651,10 +651,10 @@ abstract class Image
 	 * A mask is a grayscale image, where the shade determines the alpha channel. Black is fully transparent
 	 * and white is fully opaque.
 	 * 
-	 * @param WideImage_Image $mask The mask image, greyscale
+	 * @param \WideImage\Image $mask The mask image, greyscale
 	 * @param mixed $left Left coordinate, smart coordinate
 	 * @param mixed $top Top coordinate, smart coordinate
-	 * @return WideImage_Image The resulting image
+	 * @return \WideImage\Image The resulting image
 	 **/
 	public function applyMask($mask, $left = 0, $top = 0)
 	{
@@ -669,7 +669,7 @@ abstract class Image
 	 * @param int $arg2
 	 * @param int $arg3
 	 * @param int $arg4
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 */
 	public function applyFilter($filter, $arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null)
 	{
@@ -682,7 +682,7 @@ abstract class Image
 	 * @param array $matrix
 	 * @param float $div
 	 * @param float $offset
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 */
 	public function applyConvolution($matrix, $div, $offset)
 	{
@@ -712,7 +712,7 @@ abstract class Image
 	 * @param mixed $top Top-coordinate of the crop rect, smart coordinate
 	 * @param mixed $width Width of the crop rect, smart coordinate
 	 * @param mixed $height Height of the crop rect, smart coordinate
-	 * @return WideImage_Image The cropped image
+	 * @return \WideImage\Image The cropped image
 	 **/
 	public function crop($left = 0, $top = 0, $width = '100%', $height = '100%')
 	{
@@ -735,7 +735,7 @@ abstract class Image
 	 * @param int $rgb_threshold RGB difference which still counts as "same color".
 	 * @param int $pixel_cutoff How many pixels need to be different to mark a cut line.
 	 * @param int $base_color The base color index. If none specified (or null given), left-top pixel is used.
-	 * @return WideImage_Image The cropped image
+	 * @return \WideImage\Image The cropped image
 	 */
 	public function autoCrop($margin = 0, $rgb_threshold = 0, $pixel_cutoff = 1, $base_color = null)
 	{
@@ -745,11 +745,11 @@ abstract class Image
 	/**
 	 * Returns a negative of the image
 	 *
-	 * This operation differs from calling WideImage_Image::applyFilter(IMG_FILTER_NEGATIVE), because it's 8-bit and transparency safe.
+	 * This operation differs from calling \WideImage\Image::applyFilter(IMG_FILTER_NEGATIVE), because it's 8-bit and transparency safe.
 	 * This means it will return an 8-bit image, if the source image is 8-bit. If that 8-bit image has a palette transparency,
 	 * the resulting image will keep transparency.
 	 *
-	 * @return WideImage_Image negative of the image
+	 * @return \WideImage\Image negative of the image
 	 */
 	public function asNegative()
 	{
@@ -759,7 +759,7 @@ abstract class Image
 	/**
 	 * Returns a grayscale copy of the image
 	 * 
-	 * @return WideImage_Image grayscale copy
+	 * @return \WideImage\Image grayscale copy
 	 **/
 	public function asGrayscale()
 	{
@@ -769,7 +769,7 @@ abstract class Image
 	/**
 	 * Returns a mirrored copy of the image
 	 * 
-	 * @return WideImage_Image Mirrored copy
+	 * @return \WideImage\Image Mirrored copy
 	 **/
 	public function mirror()
 	{
@@ -782,7 +782,7 @@ abstract class Image
 	 * @param float $amount
 	 * @param float $radius
 	 * @param float $threshold
-	 * @return WideImage_Image Unsharpened copy of the image
+	 * @return \WideImage\Image Unsharpened copy of the image
 	 **/
 	public function unsharp($amount, $radius, $threshold)
 	{
@@ -792,7 +792,7 @@ abstract class Image
 	/**
 	 * Returns a flipped (mirrored over horizontal line) copy of the image
 	 * 
-	 * @return WideImage_Image Flipped copy
+	 * @return \WideImage\Image Flipped copy
 	 **/
 	public function flip()
 	{
@@ -804,7 +804,7 @@ abstract class Image
 	 * 
 	 * @param float $inputGamma
 	 * @param float $outputGamma
-	 * @return WideImage_Image Image with corrected gamma
+	 * @return \WideImage\Image Image with corrected gamma
 	 **/
 	public function correctGamma($inputGamma, $outputGamma)
 	{
@@ -818,7 +818,7 @@ abstract class Image
 	 * 
 	 * @param int $amount Number of noise pixels to add
 	 * @param string $type Type of noise 'salt&pepper', 'color' or 'mono'
-	 * @return WideImage_Image Image with noise added
+	 * @return \WideImage\Image Image with noise added
 	 **/
 	public function addNoise($amount, $type)
 	{
@@ -830,7 +830,7 @@ abstract class Image
 	 *
 	 * @param string $name
 	 * @param array $args
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 */
 	public function __call($name, $args)
 	{
@@ -856,7 +856,7 @@ abstract class Image
 	/**
 	 * Returns a copy of the image object
 	 * 
-	 * @return WideImage_Image The copy
+	 * @return \WideImage\Image The copy
 	 **/
 	public function copy()
 	{
@@ -869,7 +869,7 @@ abstract class Image
 	/**
 	 * Copies this image onto another image
 	 * 
-	 * @param WideImage_Image $dest
+	 * @param \WideImage\Image $dest
 	 * @param int $left
 	 * @param int $top
 	 **/
@@ -897,7 +897,7 @@ abstract class Image
 	 * $img->saveToFile('new.png');
 	 * </code>
 	 * 
-	 * @return WideImage_Canvas The Canvas object
+	 * @return \WideImage\Canvas The Canvas object
 	 **/
 	function getCanvas()
 	{
@@ -918,7 +918,7 @@ abstract class Image
 	/**
 	 * Returns a true-color copy of the image
 	 * 
-	 * @return WideImage_TrueColorImage
+	 * @return \WideImage\TrueColorImage
 	 **/
 	abstract public function asTrueColor();
 	
@@ -928,7 +928,7 @@ abstract class Image
 	 * @param int $nColors Number of colors in the resulting image, more than 0, less or equal to 255
 	 * @param bool $dither Use dithering or not
 	 * @param bool $matchPalette Set to true to use imagecolormatch() to match the resulting palette more closely to the original image 
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 **/
 	abstract public function asPalette($nColors = 255, $dither = null, $matchPalette = true);
 	
@@ -942,14 +942,14 @@ abstract class Image
 	 * $channels = $img->getChannels(array('green', 'blue'));
 	 * </code>
 	 * 
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 **/
 	abstract public function getChannels();
 	
 	/**
 	 * Returns an image without an alpha channel
 	 * 
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 **/
 	abstract public function copyNoAlpha();
 	

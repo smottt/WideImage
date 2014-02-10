@@ -20,7 +20,6 @@
   **/
 	
 	include 'helpers/common.php';
-	require_once '../lib/WideImage.php';
 	
 	$demos = array();
 	$di = new DirectoryIterator(dirname(__FILE__) . '/demos/');
@@ -150,7 +149,7 @@
 			<br />
 			<br />
 			
-			Version: <?php echo WideImage::version(); ?>
+			Version: <?php echo \WideImage\WideImage::version(); ?>
 			
 			<br />
 			<br />

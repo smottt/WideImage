@@ -33,11 +33,11 @@ class AutoCrop
 	/**
 	 * Executes the auto-crop operation on the $img
 	 * 
-	 * @param WideImage_Image $img 
+	 * @param \WideImage\Image $img 
 	 * @param int $rgb_threshold The difference in RGB from $base_color
 	 * @param int $pixel_cutoff The number of pixels on each border that must be over $rgb_threshold
 	 * @param int $base_color The color that will get cropped
-	 * @return WideImage_Image resulting auto-cropped image
+	 * @return \WideImage\Image resulting auto-cropped image
 	 */
 	public function execute($img, $margin, $rgb_threshold, $pixel_cutoff, $base_color)
 	{

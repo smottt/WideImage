@@ -35,11 +35,11 @@ class Rotate
 	/**
 	 * Returns rotated image
 	 *
-	 * @param WideImage_Image $image
+	 * @param \WideImage\Image $image
 	 * @param numeric $angle
 	 * @param int $bgColor
 	 * @param bool $ignoreTransparent
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 */
 	public function execute($image, $angle, $bgColor, $ignoreTransparent)
 	{

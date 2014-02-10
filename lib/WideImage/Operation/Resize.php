@@ -40,7 +40,7 @@ class Resize
 	/**
 	 * Prepares and corrects smart coordinates
 	 *
-	 * @param WideImage_Image $img
+	 * @param \WideImage\Image $img
 	 * @param smart_coordinate $width
 	 * @param smart_coordinate $height
 	 * @param string $fit
@@ -108,12 +108,12 @@ class Resize
 	/**
 	 * Returns a resized image
 	 *
-	 * @param WideImage_Image $img
+	 * @param \WideImage\Image $img
 	 * @param smart_coordinate $width
 	 * @param smart_coordinate $height
 	 * @param string $fit
 	 * @param string $scale
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 */
 	public function execute($img, $width, $height, $fit, $scale)
 	{

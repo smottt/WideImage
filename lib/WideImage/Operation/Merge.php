@@ -36,12 +36,12 @@ class Merge
 	/**
 	 * Returns a merged image
 	 *
-	 * @param WideImage_Image $base
-	 * @param WideImage_Image $overlay
+	 * @param \WideImage\Image $base
+	 * @param \WideImage\Image $overlay
 	 * @param smart_coordinate $left
 	 * @param smart_coordinate $top
 	 * @param numeric $pct
-	 * @return WideImage_Image
+	 * @return \WideImage\Image
 	 */
 	public function execute($base, $overlay, $left, $top, $pct)
 	{
