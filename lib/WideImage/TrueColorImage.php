@@ -228,9 +228,21 @@ class TrueColorImage extends Image
 	/**
 	 * (non-PHPdoc)
 	 * @see \WideImage\Image#asTrueColor()
+         * @return TrueColorImage
 	 */
 	public function asTrueColor()
 	{
 		return $this->copy();
 	}
+        
+	/**
+	 * Calls imageinterlace() using the current handler
+	 * @see \WideImage\Image#asTrueColor()
+         * @return TrueColorImage A copy of the image, with imageinterlace() applied
+	 */
+        public function asProgressive() {
+            $dest = $this->asTrueColor();
+            imageinterlace($dest->getHandle(), true);
+            return $dest;
+        }
 }
