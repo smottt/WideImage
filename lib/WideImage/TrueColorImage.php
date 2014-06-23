@@ -240,9 +240,54 @@ class TrueColorImage extends Image
 	 * @see \WideImage\Image#asTrueColor()
          * @return TrueColorImage A copy of the image, with imageinterlace() applied
 	 */
-        public function asProgressive() {
+        public function asProgressive()
+        {
             $dest = $this->asTrueColor();
+
             imageinterlace($dest->getHandle(), true);
+
             return $dest;
         }
+
+        /**
+         * Resizes the image proportionally inside the given width and height.
+         * The returned image will have always the specified width and height, and any space will be filled
+         * with the given $fillCollor
+         * 
+         * @param int $width Exact width in pixels
+         * @param int $height Exact height in pixels
+         * @param string $fit 'inside' (default), 'outside' or 'fill'
+         * @param string $scale 'down' (default), 'up' or 'any'
+         * @param mixed $alignLeft Left position of the image over the fill space, smart coordinate
+         * @param mixed $alignTop Top position of the image over the fill space, smart coordinate
+         * @param int $mergeOpacity The opacity of the image over the fill space
+         * @param int|array $fillColor RGB color index or array. Background color to fill the resulting image with if it's smaller
+         * than the given size. By default (if null), the top left pixel color will be used.
+         * 
+         * @return TrueColorImage A new, resized image
+         */
+        public function resizeInsideRect($width, $height, $fit = 'inside', $scale = 'down', $alignLeft = 'center', 
+                $alignTop = 'center', $mergeOpacity = 100,  $fillColor = null)
+        {
+
+            if ($fillColor) {
+                if (is_numeric($fillColor)) {
+                    $fillColor = $this->getColorRGB($fillColor);
+                }
+            } else {
+                $fillColor = $this->getColorRGB($this->getColorAt(0, 0));
+            }
+            
+            $rect = \WideImage::createTrueColorImage($width, $height);
+            $rect->fill(0, 0, $rect->allocateColor($fillColor));
+
+            $img = $this;
+
+            for ($i = 0; $i < 4; $i++) { //4 times
+                $img = $img->resize($width, $height, $fit, $scale);
+            }
+
+            return $rect->merge($img, $alignLeft, $alignTop, $mergeOpacity);
+        }
 }
+
