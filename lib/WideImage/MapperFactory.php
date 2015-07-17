@@ -42,7 +42,8 @@ abstract class MapperFactory
 		'image/jpeg'  => 'JPEG', 
 		'image/pjpeg' => 'JPEG', 
 		'image/gif'   => 'GIF', 
-		'image/png'   => 'PNG'
+		'image/png'   => 'PNG',
+		'image/webp'  => 'WEBP'
 	);
 	
 	/**
