@@ -21,7 +21,7 @@
     * @package Internal/Operations
   **/
 
-namespace WIdeImage\Operation;
+namespace WideImage\Operation;
 
 use WideImage\Coordinate;
 use WideImage\Exception\GDFunctionResultException;
