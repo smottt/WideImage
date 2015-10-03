@@ -1,5 +1,5 @@
 {
-    "name": "smottt/wideimage",
+    "name": "bordeux/wideimage",
     "description": "An open-source PHP library for image manipulation. (With namespaces, PHP 5.3+)",
     "homepage": "http://wideimage.sourceforge.net",
     "type": "library",
