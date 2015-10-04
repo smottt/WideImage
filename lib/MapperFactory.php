@@ -123,19 +123,20 @@ abstract class MapperFactory
 	{
 		$p = strrpos($uri, '.');
 
-		if ($p === false) {
-			// if not found in extension, then try to use finfo_open (KS Development ApS improvement)
-			if(extension_loaded('fileinfo')) {
-				$finfo = finfo_open(FILEINFO_MIME_TYPE);
-				@$format = finfo_file($finfo, $uri);
-				finfo_close($finfo);
-
-				return ($format) ? $format : '';
-			} else {
-				return '';
-			}
+		if ($p !== false) {
+			return substr($uri, $p + 1);
 		}
 
-		return substr($uri, $p + 1);
+		$format = null;
+
+		// if not found in extension,
+		// then try to use finfo_open (KS Development ApS improvement)
+		if (extension_loaded('fileinfo')) {
+			$finfo = finfo_open(FILEINFO_MIME_TYPE);
+			$format = @finfo_file($finfo, $uri);
+			finfo_close($finfo);
+		}
+
+		return $format ?: '';
 	}
 }

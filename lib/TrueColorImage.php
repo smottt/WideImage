@@ -277,7 +277,7 @@ class TrueColorImage extends Image
 	        $fillColor = $this->getColorRGB($this->getColorAt(0, 0));
 	    }
 
-	    $rect = \WideImage::createTrueColorImage($width, $height);
+	    $rect = WideImage::createTrueColorImage($width, $height);
 	    $rect->fill(0, 0, $rect->allocateColor($fillColor));
 
 	    $img = $this;
