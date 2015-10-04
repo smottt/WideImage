@@ -124,7 +124,16 @@ abstract class MapperFactory
 		$p = strrpos($uri, '.');
 
 		if ($p === false) {
-			return '';
+			// if not found in extension, then try to use finfo_open (KS Development ApS improvement)
+			if(extension_loaded('fileinfo')) {
+				$finfo = finfo_open(FILEINFO_MIME_TYPE);
+				@$format = finfo_file($finfo, $uri);
+				finfo_close($finfo);
+
+				return ($format) ? $format : '';
+			} else {
+				return '';
+			}
 		}
 
 		return substr($uri, $p + 1);
