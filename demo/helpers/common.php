@@ -25,7 +25,7 @@ function __autoload($className) {
     $className = ltrim($className, '\\');
     $fileName = '';
     $namespace = '';
-    if ($lastNsPos = strrpos($className, '\\')) {
+    if (($lastNsPos = strrpos($className, '\\')) !== false) {
         $namespace = substr($className, 0, $lastNsPos);
         $className = substr($className, $lastNsPos + 1);
         $fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;

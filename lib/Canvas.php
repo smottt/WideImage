@@ -3,21 +3,21 @@
 ##DOC-SIGNATURE##
 
     This file is part of WideImage.
-		
+
     WideImage is free software; you can redistribute it and/or modify
     it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation; either version 2.1 of the License, or
     (at your option) any later version.
-		
+
     WideImage is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU Lesser General Public License for more details.
-		
+
     You should have received a copy of the GNU Lesser General Public License
     along with WideImage; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-    
+
     * @package WideImage
   **/
 
@@ -36,7 +36,7 @@ class Canvas
 	protected $handle = 0;
 	protected $image  = null;
 	protected $font   = null;
-	
+
 	/**
 	 * Creates a canvas object that writes to the image passed as a parameter
 	 *
@@ -49,26 +49,26 @@ class Canvas
 		$this->handle = $img->getHandle();
 		$this->image  = $img;
 	}
-	
+
 	/**
-	 * Sets the active font. Can be an instance of 
+	 * Sets the active font. Can be an instance of
 	 * \WideImage\Font\TTF, \WideImage\Font\PS, or \WideImage\Font\GDF.
-	 * 
+	 *
 	 * @param object $font Font object to set for writeText()
 	 */
 	public function setFont($font)
 	{
 		$this->font = $font;
 	}
-	
+
 	/**
 	 * Creates and sets the current font
-	 * 
+	 *
 	 * The supported font types are: TTF/OTF, PS, and GDF.
 	 * Font type is detected from the extension. If the $file parameter doesn't have an extension, TTF font is presumed.
-	 * 
+	 *
 	 * Note: not all parameters are supported by all fonts.
-	 * 
+	 *
 	 * @param string $file Font file name (string)
 	 * @param int $size Font size (supported for TTF/OTF and PS fonts, ignored for GDF)
 	 * @param int $color Text color
@@ -78,13 +78,13 @@ class Canvas
 	public function useFont($file, $size = 12, $color = 0, $bgcolor = null)
 	{
 		$p = strrpos($file, '.');
-		
+
 		if ($p === false || $p < strlen($file) - 4) {
 			$ext = 'ttf';
 		} else {
 			$ext = strtolower(substr($file, $p + 1));
 		}
-		
+
 		if ($ext == 'ttf' || $ext == 'otf') {
 			$font = new Font\TTF($file, $size, $color);
 		} elseif ($ext == 'ps') {
@@ -94,18 +94,18 @@ class Canvas
 		} else {
 			throw new InvalidFontFileException("'$file' appears to be an invalid font file.");
 		}
-		
+
 		$this->setFont($font);
 		return $font;
 	}
-	
+
 	/**
 	 * Write text on the image at specified position
-	 * 
+	 *
 	 * You must set a font with a call to \WideImage\Canvas::setFont() prior to writing text to the image.
-	 * 
+	 *
 	 * Smart coordinates are supported for $x and $y arguments, but currently only for TTF/OTF fonts.
-	 * 
+	 *
 	 * Example:
 	 * <code>
 	 * $img = WideImage::load('pic.jpg');
@@ -113,7 +113,7 @@ class Canvas
 	 * $canvas->useFont('Verdana.ttf', 16, $img->allocateColor(255, 0, 0));
 	 * $canvas->writeText('right', 'bottom', 'www.website.com');
 	 * </code>
-	 * 
+	 *
 	 * @param int $x Left
 	 * @param int $y Top
 	 * @param string $text Text to write
@@ -124,23 +124,23 @@ class Canvas
 		if ($this->font === null) {
 			throw new NoFontException("Can't write text without a font.");
 		}
-		
+
 		$angle = - floatval($angle);
-		
+
 		if ($angle < 0) {
 			$angle = 360 + $angle;
 		}
-		
+
 		$angle = $angle % 360;
-		
+
 		$this->font->writeText($this->image, $x, $y, $text, $angle);
 	}
-	
+
 	/**
 	 * A magic method that allows you to call any PHP function that starts with "image".
-	 * 
+	 *
 	 * This is a shortcut to call custom functions on the image handle.
-	 * 
+	 *
 	 * Example:
 	 * <code>
 	 * $img = WideImage::load('pic.jpg');
@@ -149,13 +149,14 @@ class Canvas
 	 * $canvas->line(60, 80, 30, 100, $img->allocateColor(255, 0, 0));
 	 * </code>
 	 */
-	function __call($method, $params)
+	public function __call($method, $params)
 	{
-		if (function_exists('image' . $method)) {
-			array_unshift($params, $this->handle);
-			call_user_func_array('image' . $method, $params);
-		} else {
+		if (!function_exists('image' . $method)) {
 			throw new InvalidCanvasMethodException("Function doesn't exist: image{$method}.");
 		}
+
+		array_unshift($params, $this->handle);
+
+		call_user_func_array('image' . $method, $params);
 	}
 }
