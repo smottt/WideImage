@@ -9,5 +9,8 @@
         "psr-0" : {
           "WideImage" : "lib/"
         }
+    },
+    "require": {
+    	"php": ">=5.3"
     }
 }
