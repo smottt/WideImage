@@ -50,6 +50,6 @@ class OperationFactoryTest extends WideImage_TestCase
 	public function testUserDefinedOp()
 	{
 		$op = OperationFactory::get('MyOperation');
-		$this->assertTrue($op instanceof MyOperation);
+		$this->assertInstanceOf(MyOperation::class, $op);
 	}
 }

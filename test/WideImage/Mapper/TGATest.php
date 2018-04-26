@@ -49,7 +49,7 @@ class TGATest extends WideImage_TestCase
 	public function testLoad()
 	{
 		$handle = $this->mapper->load(IMG_PATH . 'splat.tga');
-		$this->assertTrue(is_resource($handle));
+		$this->assertInternalType('resource', $handle);
 		$this->assertEquals(100, imagesx($handle));
 		$this->assertEquals(100, imagesy($handle));
 		imagedestroy($handle);

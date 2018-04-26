@@ -53,7 +53,7 @@ class GDTest extends WideImage_TestCase
 	{
 		$handle = imagecreatefromgif(IMG_PATH . '100x100-color-hole.gif');
 		$this->mapper->save($handle, IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.gd');
-		$this->assertTrue(filesize(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.gd') > 0);
+		$this->assertGreaterThan(0, filesize(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.gd'));
 		imagedestroy($handle);
 		
 		// file is a valid image

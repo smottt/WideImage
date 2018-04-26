@@ -37,7 +37,7 @@ class CropTest extends WideImage_TestCase
 
 		$cropped = $img->crop('10%', 15, 50, '40%');
 
-		$this->assertTrue($cropped instanceof PaletteImage);
+		$this->assertInstanceOf(PaletteImage::class, $cropped);
 		$this->assertTrue($cropped->isTransparent());
 		$this->assertEquals(50, $cropped->getWidth());
 		$this->assertEquals(40, $cropped->getHeight());
@@ -54,7 +54,7 @@ class CropTest extends WideImage_TestCase
 
 		$cropped = $img->crop(10, 10, 50, 50);
 
-		$this->assertTrue($cropped instanceof TrueColorImage);
+		$this->assertInstanceOf(TrueColorImage::class, $cropped);
 		$this->assertFalse($cropped->isTransparent());
 		$this->assertEquals(50, $cropped->getWidth());
 		$this->assertEquals(50, $cropped->getHeight());

@@ -36,7 +36,7 @@ class ApplyFilterTest extends WideImage_TestCase
 		$img = WideImage::load(IMG_PATH . '100x100-color-hole.gif');
 		$result = $img->applyFilter(IMG_FILTER_EDGEDETECT);
 		
-		$this->assertTrue($result instanceof TrueColorImage);
+		$this->assertInstanceOf(TrueColorImage::class, $result);
 		$this->assertTrue($result->isTransparent());
 		
 		$this->assertEquals(100, $result->getWidth());

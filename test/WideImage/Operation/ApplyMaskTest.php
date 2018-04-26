@@ -36,7 +36,7 @@ class ApplyMaskTest extends WideImage_TestCase
 		$mask = WideImage::load(IMG_PATH . '75x25-gray.png');
 		
 		$result = $img->applyMask($mask);
-		$this->assertTrue($result instanceof TrueColorImage);
+		$this->assertInstanceOf(TrueColorImage::class, $result);
 		$this->assertTrue($result->isTransparent());
 		
 		$this->assertEquals(100, $result->getWidth());

@@ -34,7 +34,7 @@ class TrueColorImageTest extends WideImage_TestCase
 	public function testCreate()
 	{
 		$img = TrueColorImage::create(10, 10);
-		$this->assertTrue($img instanceof TrueColorImage);
+		$this->assertInstanceOf(TrueColorImage::class, $img);
 		$this->assertTrue($img->isValid());
 		$this->assertTrue($img->isTrueColor());
 	}
@@ -42,7 +42,7 @@ class TrueColorImageTest extends WideImage_TestCase
 	public function testCopy()
 	{
 		$img = WideImage::load(IMG_PATH . '100x100-rgbyg.png');
-		$this->assertTrue($img instanceof TrueColorImage);
+		$this->assertInstanceOf(TrueColorImage::class, $img);
 		$this->assertTrue($img->isValid());
 		$this->assertTrue($img->isTrueColor());
 		$this->assertRGBEqual($img->getRGBAt(15, 15), 0, 0, 255);
@@ -52,9 +52,9 @@ class TrueColorImageTest extends WideImage_TestCase
 		$this->assertRGBEqual($img->getRGBAt(50, 50), 127, 127, 127);
 		
 		$copy = $img->copy();
-		$this->assertFalse($img->getHandle() === $copy->getHandle());
+		$this->assertNotSame($copy->getHandle(), $img->getHandle());
 		
-		$this->assertTrue($copy instanceof TrueColorImage);
+		$this->assertInstanceOf(TrueColorImage::class, $copy);
 		$this->assertTrue($copy->isValid());
 		$this->assertTrue($copy->isTrueColor());
 		$this->assertRGBEqual($copy->getRGBAt(15, 15), 0, 0, 255);
@@ -69,8 +69,8 @@ class TrueColorImageTest extends WideImage_TestCase
 		$img = WideImage::load(IMG_PATH . '100x100-blue-alpha.png');
 		$this->assertRGBEqual($img->getRGBAt(85, 85), 0, 0, 255, 96);
 		$copy = $img->copyNoAlpha();
-		$this->assertFalse($img->getHandle() === $copy->getHandle());
-		$this->assertTrue($copy instanceof TrueColorImage);
+		$this->assertNotSame($copy->getHandle(), $img->getHandle());
+		$this->assertInstanceOf(TrueColorImage::class, $copy);
 		$this->assertTrue($copy->isValid());
 		$this->assertTrue($copy->isTrueColor());
 		$this->assertRGBEqual($copy->getRGBAt(85, 85), 0, 0, 255, 0);
@@ -79,7 +79,7 @@ class TrueColorImageTest extends WideImage_TestCase
 	public function testCopyAlphaGetsCopied()
 	{
 		$img = WideImage::load(IMG_PATH . '100x100-blue-alpha.png');
-		$this->assertTrue($img instanceof TrueColorImage);
+		$this->assertInstanceOf(TrueColorImage::class, $img);
 		$this->assertTrue($img->isValid());
 		$this->assertTrue($img->isTrueColor());
 		$this->assertRGBNear($img->getRGBAt(25, 25), 0, 0, 255, 0.25 * 127);
@@ -88,9 +88,9 @@ class TrueColorImageTest extends WideImage_TestCase
 		$this->assertRGBNear($img->getRGBAt(25, 75), 0, 0, 0, 127);
 		
 		$copy = $img->copy();
-		$this->assertFalse($img->getHandle() === $copy->getHandle());
+		$this->assertNotSame($copy->getHandle(), $img->getHandle());
 		
-		$this->assertTrue($copy instanceof TrueColorImage);
+		$this->assertInstanceOf(TrueColorImage::class, $copy);
 		$this->assertTrue($copy->isValid());
 		$this->assertTrue($copy->isTrueColor());
 		$this->assertRGBNear($copy->getRGBAt(25, 25), 0, 0, 255, 0.25 * 127);
@@ -103,14 +103,14 @@ class TrueColorImageTest extends WideImage_TestCase
 	{
 		if (function_exists('imagecolormatch')) {
 			$img = WideImage::load(IMG_PATH . '100x100-rgbyg.png');
-			$this->assertTrue($img instanceof TrueColorImage);
+			$this->assertInstanceOf(TrueColorImage::class, $img);
 			$this->assertTrue($img->isValid());
 			$this->assertTrue($img->isTrueColor());
 			
 			$copy = $img->asPalette();
-			$this->assertFalse($img->getHandle() === $copy->getHandle());
+			$this->assertNotSame($copy->getHandle(), $img->getHandle());
 			
-			$this->assertTrue($copy instanceof PaletteImage);
+			$this->assertInstanceOf(PaletteImage::class, $copy);
 			$this->assertTrue($copy->isValid());
 			$this->assertFalse($copy->isTrueColor());
 			$this->assertRGBEqual($copy->getRGBAt(15, 15), 0, 0, 255);

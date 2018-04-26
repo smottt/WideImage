@@ -35,7 +35,7 @@ class GetMaskTest extends WideImage_TestCase
 		$img = WideImage::load(IMG_PATH . '100x100-color-hole.gif');
 		
 		$mask = $img->getMask();
-		$this->assertTrue($mask instanceof TrueColorImage);
+		$this->assertInstanceOf(TrueColorImage::class, $mask);
 		
 		$this->assertFalse($mask->isTransparent());
 		$this->assertEquals(100, $mask->getWidth());
@@ -51,7 +51,7 @@ class GetMaskTest extends WideImage_TestCase
 		$img = WideImage::load(IMG_PATH . '100x100-blue-alpha.png');
 		
 		$mask = $img->getMask();
-		$this->assertTrue($mask instanceof TrueColorImage);
+		$this->assertInstanceOf(TrueColorImage::class, $mask);
 		
 		$this->assertFalse($mask->isTransparent());
 		$this->assertEquals(100, $mask->getWidth());

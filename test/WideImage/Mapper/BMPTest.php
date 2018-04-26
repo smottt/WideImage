@@ -60,7 +60,7 @@ class BMPTest extends WideImage_TestCase
 	public function testLoad($image, $width, $height)
 	{
 		$handle = $this->mapper->load($image);
-		$this->assertTrue(is_resource($handle));
+		$this->assertInternalType('resource', $handle);
 		$this->assertEquals($width, imagesx($handle));
 		$this->assertEquals($height, imagesy($handle));
 		imagedestroy($handle);
@@ -72,7 +72,7 @@ class BMPTest extends WideImage_TestCase
 		ob_start();
 		$this->mapper->save($handle);
 		$string = ob_get_clean();
-		$this->assertTrue(strlen($string) > 0);
+		$this->assertGreaterThan(0, strlen($string));
 		imagedestroy($handle);
 
 		// string contains valid image data
@@ -85,7 +85,7 @@ class BMPTest extends WideImage_TestCase
 	{
 		$handle = imagecreatefromgif(IMG_PATH . '100x100-color-hole.gif');
 		$this->mapper->save($handle, IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.bmp');
-		$this->assertTrue(filesize(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.bmp') > 0);
+		$this->assertGreaterThan(0, filesize(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.bmp'));
 		imagedestroy($handle);
 
 		// file is a valid image

@@ -36,7 +36,7 @@ class CorrectGammaTest extends WideImage_TestCase
 		$img = WideImage::load(IMG_PATH . '100x100-color-hole.gif');
 		$result = $img->correctGamma(1, 2);
 		
-		$this->assertTrue($result instanceof PaletteImage);
+		$this->assertInstanceOf(PaletteImage::class, $result);
 		$this->assertTrue($result->isTransparent());
 		
 		$this->assertEquals(100, $result->getWidth());

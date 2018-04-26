@@ -41,7 +41,7 @@ class MirrorTest extends WideImage_TestCase
 		
 		$new = $img->mirror();
 		
-		$this->assertTrue($new instanceof PaletteImage);
+		$this->assertInstanceOf(PaletteImage::class, $new);
 		
 		$this->assertEquals(100, $new->getWidth());
 		$this->assertEquals(100, $new->getHeight());
