@@ -36,7 +36,7 @@ class ApplyConvolutionTest extends WideImage_TestCase
 		$img = WideImage::load(IMG_PATH . '100x100-color-hole.gif');
 		$result = $img->applyConvolution(array(array(2, 0, 0), array(0, -1, 0), array(0, 0, -1)), 1, 220);
 		
-		$this->assertTrue($result instanceof TrueColorImage);
+		$this->assertInstanceOf(TrueColorImage::class, $result);
 		$this->assertTrue($result->isTransparent());
 		
 		$this->assertEquals(100, $result->getWidth());

@@ -154,7 +154,7 @@ class ResizeTest extends WideImage_TestCase
 	{
 		$img = WideImage::load(IMG_PATH . '100x100-color-hole.gif');
 		$resized = $img->resize(50, 20, 'fill');
-		$this->assertTrue($resized instanceof Image);
+		$this->assertInstanceOf(Image::class, $resized);
 		$this->assertTrue($resized->isTransparent());
 		$this->assertEquals(50, $resized->getWidth());
 		$this->assertEquals(20, $resized->getHeight());
@@ -194,7 +194,7 @@ class ResizeTest extends WideImage_TestCase
 	{
 		$img = WideImage::load(IMG_PATH . '100x100-color-hole.gif');
 		$resized = $img->resize(50, 20, 'inside');
-		$this->assertTrue($resized instanceof Image);
+		$this->assertInstanceOf(Image::class, $resized);
 		$this->assertTrue($resized->isTransparent());
 		$this->assertEquals(20, $resized->getWidth());
 		$this->assertEquals(20, $resized->getHeight());

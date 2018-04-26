@@ -48,7 +48,7 @@ class PNGTest extends WideImage_TestCase
 	public function testLoad()
 	{
 		$handle = $this->mapper->load(IMG_PATH . '100x100-color-hole.png');
-		$this->assertTrue(is_resource($handle));
+		$this->assertInternalType('resource', $handle);
 		$this->assertEquals(100, imagesx($handle));
 		$this->assertEquals(100, imagesy($handle));
 		imagedestroy($handle);
@@ -60,12 +60,12 @@ class PNGTest extends WideImage_TestCase
 		ob_start();
 		$this->mapper->save($handle);
 		$string = ob_get_clean();
-		$this->assertTrue(strlen($string) > 0);
+		$this->assertGreaterThan(0, strlen($string));
 		imagedestroy($handle);
 		
 		// string contains valid image data
 		$handle = imagecreatefromstring($string);
-		$this->assertTrue(is_resource($handle));
+		$this->assertInternalType('resource', $handle);
 		imagedestroy($handle);
 	}
 	
@@ -73,12 +73,12 @@ class PNGTest extends WideImage_TestCase
 	{
 		$handle = imagecreatefrompng(IMG_PATH . '100x100-color-hole.png');
 		$this->mapper->save($handle, IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.png');
-		$this->assertTrue(filesize(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.png') > 0);
+		$this->assertGreaterThan(0, filesize(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.png'));
 		imagedestroy($handle);
 		
 		// file is a valid image
 		$handle = imagecreatefrompng(IMG_PATH . 'temp/test.png');
-		$this->assertTrue(is_resource($handle));
+		$this->assertInternalType('resource', $handle);
 		imagedestroy($handle);
 	}
 	
@@ -89,7 +89,7 @@ class PNGTest extends WideImage_TestCase
 		$file2 = IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test-comp-9.png';
 		$this->mapper->save($handle, $file1, 0);
 		$this->mapper->save($handle, $file2, 9);
-		$this->assertTrue(filesize($file1) > filesize($file2));
+		$this->assertGreaterThan(filesize($file2), filesize($file1));
 		
 		unlink($file1);
 		unlink($file2);

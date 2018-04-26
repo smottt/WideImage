@@ -68,14 +68,14 @@ class WideImageTest extends WideImage_TestCase
 	public function testLoadFromFile()
 	{
 		$img = WideImage::load(IMG_PATH . '100x100-red-transparent.gif');
-		$this->assertTrue($img instanceof PaletteImage);
+		$this->assertInstanceOf(PaletteImage::class, $img);
 		$this->assertValidImage($img);
 		$this->assertFalse($img->isTrueColor());
 		$this->assertEquals(100, $img->getWidth());
 		$this->assertEquals(100, $img->getHeight());
 
 		$img = WideImage::load(IMG_PATH . '100x100-rainbow.png');
-		$this->assertTrue($img instanceof TrueColorImage);
+		$this->assertInstanceOf(TrueColorImage::class, $img);
 		$this->assertValidImage($img);
 		$this->assertTrue($img->isTrueColor());
 		$this->assertEquals(100, $img->getWidth());
@@ -85,7 +85,7 @@ class WideImageTest extends WideImage_TestCase
 	public function testLoadFromString()
 	{
 		$img = WideImage::load(file_get_contents(IMG_PATH . '100x100-rainbow.png'));
-		$this->assertTrue($img instanceof TrueColorImage);
+		$this->assertInstanceOf(TrueColorImage::class, $img);
 		$this->assertValidImage($img);
 		$this->assertTrue($img->isTrueColor());
 		$this->assertEquals(100, $img->getWidth());

@@ -67,8 +67,8 @@ class ImageTest extends WideImage_TestCase
 {
 	public function testFactories()
 	{
-		$this->assertTrue(WideImage::createTrueColorImage(100, 100) instanceof TrueColorImage);
-		$this->assertTrue(WideImage::createPaletteImage(100, 100) instanceof PaletteImage);
+		$this->assertInstanceOf(TrueColorImage::class, WideImage::createTrueColorImage(100, 100));
+		$this->assertInstanceOf(PaletteImage::class, WideImage::createPaletteImage(100, 100));
 	}
 	
 	public function testDestructorUponUnset()
@@ -116,7 +116,7 @@ class ImageTest extends WideImage_TestCase
 	{
 		$img = TrueColorImage::create(10, 10);
 		$result = $img->customOp(123, 'abc');
-		$this->assertTrue($result instanceof Image);
+		$this->assertInstanceOf(Image::class, $result);
 		$this->assertSame(CustomOp::$args[0], $img);
 		$this->assertSame(CustomOp::$args[1], 123);
 		$this->assertSame(CustomOp::$args[2], 'abc');
@@ -126,7 +126,7 @@ class ImageTest extends WideImage_TestCase
 	{
 		$img = TrueColorImage::create(10, 10);
 		$result = $img->CUSTomOP(123, 'abc');
-		$this->assertTrue($result instanceof Image);
+		$this->assertInstanceOf(Image::class, $result);
 		$this->assertSame(CustomOp::$args[0], $img);
 		$this->assertSame(CustomOp::$args[1], 123);
 		$this->assertSame(CustomOp::$args[2], 'abc');
@@ -136,7 +136,7 @@ class ImageTest extends WideImage_TestCase
 	{
 		$img = TrueColorImage::create(10, 10);
 		$result = $img->AUTOcrop();
-		$this->assertTrue($result instanceof Image);
+		$this->assertInstanceOf(Image::class, $result);
 	}
 	
 	public function testOutput()
@@ -175,16 +175,16 @@ class ImageTest extends WideImage_TestCase
 	{
 		$img = WideImage::load(IMG_PATH . 'fgnl.jpg');
 		$canvas1 = $img->getCanvas();
-		$this->assertTrue($canvas1 instanceof Canvas);
+		$this->assertInstanceOf(Canvas::class, $canvas1);
 		$canvas2 = $img->getCanvas();
-		$this->assertTrue($canvas1 === $canvas2);
+		$this->assertSame($canvas2, $canvas1);
 	}
 	
 	public function testSerializeTrueColorImage()
 	{
 		$img = WideImage::load(IMG_PATH . 'fgnl.jpg');
 		$img2 = unserialize(serialize($img));
-		$this->assertEquals(get_class($img2), get_class($img));
+		$this->assertInstanceOf(get_class($img2), $img);
 		$this->assertTrue($img2->isTrueColor());
 		$this->assertTrue($img2->isValid());
 		$this->assertFalse($img2->isTransparent());
@@ -196,7 +196,7 @@ class ImageTest extends WideImage_TestCase
 	{
 		$img = WideImage::load(IMG_PATH . '100x100-color-hole.gif');
 		$img2 = unserialize(serialize($img));
-		$this->assertEquals(get_class($img2), get_class($img));
+		$this->assertInstanceOf(get_class($img2), $img);
 		$this->assertFalse($img2->isTrueColor());
 		$this->assertTrue($img2->isValid());
 		$this->assertTrue($img2->isTransparent());

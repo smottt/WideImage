@@ -48,7 +48,7 @@ class JPEGTest extends WideImage_TestCase
 	public function testLoad()
 	{
 		$handle = $this->mapper->load(IMG_PATH . 'fgnl.jpg');
-		$this->assertTrue(is_resource($handle));
+		$this->assertInternalType('resource', $handle);
 		$this->assertEquals(174, imagesx($handle));
 		$this->assertEquals(287, imagesy($handle));
 		imagedestroy($handle);
@@ -60,12 +60,12 @@ class JPEGTest extends WideImage_TestCase
 		ob_start();
 		$this->mapper->save($handle);
 		$string = ob_get_clean();
-		$this->assertTrue(strlen($string) > 0);
+		$this->assertGreaterThan(0, strlen($string));
 		imagedestroy($handle);
 		
 		// string contains valid image data
 		$handle = imagecreatefromstring($string);
-		$this->assertTrue(is_resource($handle));
+		$this->assertInternalType('resource', $handle);
 		imagedestroy($handle);
 	}
 	
@@ -73,12 +73,12 @@ class JPEGTest extends WideImage_TestCase
 	{
 		$handle = imagecreatefromjpeg(IMG_PATH . 'fgnl.jpg');
 		$this->mapper->save($handle, IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.jpg');
-		$this->assertTrue(filesize(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.jpg') > 0);
+		$this->assertGreaterThan(0, filesize(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.jpg'));
 		imagedestroy($handle);
 		
 		// file is a valid image
 		$handle = imagecreatefromjpeg(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.jpg');
-		$this->assertTrue(is_resource($handle));
+		$this->assertInternalType('resource', $handle);
 		imagedestroy($handle);
 	}
 	
@@ -94,9 +94,9 @@ class JPEGTest extends WideImage_TestCase
 		$this->mapper->save($handle, null, 10);
 		$lq = ob_get_clean();
 		
-		$this->assertTrue(strlen($hq) > 0);
-		$this->assertTrue(strlen($lq) > 0);
-		$this->assertTrue(strlen($hq) > strlen($lq));
+		$this->assertGreaterThan(0, strlen($hq));
+		$this->assertGreaterThan(0, strlen($lq));
+		$this->assertGreaterThan(strlen($lq), strlen($hq));
 		imagedestroy($handle);
 	}
 }

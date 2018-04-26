@@ -41,7 +41,7 @@ class AsGrayscaleTest extends WideImage_TestCase
 		$img = WideImage::load(IMG_PATH . '100x100-color-hole.gif');
 		
 		$gray = $img->asGrayscale();
-		$this->assertTrue($gray instanceof PaletteImage);
+		$this->assertInstanceOf(PaletteImage::class, $gray);
 		
 		$this->assertEquals(100, $gray->getWidth());
 		$this->assertEquals(100, $gray->getHeight());
@@ -75,7 +75,7 @@ class AsGrayscaleTest extends WideImage_TestCase
 		$img = WideImage::load(IMG_PATH . '100x100-blue-alpha.png');
 		
 		$gray = $img->asGrayscale();
-		$this->assertTrue($gray instanceof TrueColorImage);
+		$this->assertInstanceOf(TrueColorImage::class, $gray);
 		$this->assertEquals(100, $gray->getWidth());
 		$this->assertEquals(100, $gray->getHeight());
 		

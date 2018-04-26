@@ -36,7 +36,7 @@ class GetChannelsTest extends WideImage_TestCase
 		$img = WideImage::load(IMG_PATH . '100x100-color-hole.gif');
 		
 		$copy = $img->getChannels('red', 'alpha');
-		$this->assertTrue($copy instanceof PaletteImage);
+		$this->assertInstanceOf(PaletteImage::class, $copy);
 		$this->assertTrue($copy->isValid());
 		$this->assertFalse($copy->isTrueColor());
 		$this->assertTrue($copy->isTransparent());
@@ -48,7 +48,7 @@ class GetChannelsTest extends WideImage_TestCase
 		$this->assertEquals($copy->getTransparentColor(), $copy->getColorAt(50, 50));
 		
 		$copy = $img->getChannels('red');
-		$this->assertTrue($copy instanceof PaletteImage);
+		$this->assertInstanceOf(PaletteImage::class, $copy);
 		$this->assertTrue($copy->isValid());
 		$this->assertFalse($copy->isTrueColor());
 		$this->assertTrue($copy->isTransparent());
@@ -60,7 +60,7 @@ class GetChannelsTest extends WideImage_TestCase
 		$this->assertEquals($copy->getTransparentColor(), $copy->getColorAt(50, 50));
 		
 		$copy = $img->getChannels('green');
-		$this->assertTrue($copy instanceof PaletteImage);
+		$this->assertInstanceOf(PaletteImage::class, $copy);
 		$this->assertTrue($copy->isValid());
 		$this->assertFalse($copy->isTrueColor());
 		$this->assertTrue($copy->isTransparent());
@@ -77,8 +77,8 @@ class GetChannelsTest extends WideImage_TestCase
 		$img = WideImage::load(IMG_PATH . '100x100-rgbyg.png');
 		
 		$copy = $img->getChannels('red');
-		$this->assertFalse($img->getHandle() === $copy->getHandle());
-		$this->assertTrue($copy instanceof TrueColorImage);
+		$this->assertNotSame($copy->getHandle(), $img->getHandle());
+		$this->assertInstanceOf(TrueColorImage::class, $copy);
 		$this->assertTrue($copy->isValid());
 		$this->assertTrue($copy->isTrueColor());
 		$this->assertRGBEqual($copy->getRGBAt(15, 15), 0, 0, 0, 0);

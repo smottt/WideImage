@@ -35,7 +35,7 @@ class AutocropTest extends WideImage_TestCase
 		$img = WideImage::load(IMG_PATH . '100x100-red-spot.png');
 		
 		$cropped = $img->autocrop();
-		$this->assertTrue($cropped instanceof TrueColorImage);
+		$this->assertInstanceOf(TrueColorImage::class, $cropped);
 		$this->assertEquals(71, $cropped->getWidth());
 		$this->assertEquals(70, $cropped->getHeight());
 		
@@ -47,7 +47,7 @@ class AutocropTest extends WideImage_TestCase
 		$img = WideImage::load(IMG_PATH . '100x100-red-spot-half-cut.png');
 		
 		$cropped = $img->autocrop();
-		$this->assertTrue($cropped instanceof TrueColorImage);
+		$this->assertInstanceOf(TrueColorImage::class, $cropped);
 		$this->assertEquals(22, $cropped->getWidth());
 		$this->assertEquals(23, $cropped->getHeight());
 		
