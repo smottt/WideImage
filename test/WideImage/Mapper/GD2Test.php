@@ -57,7 +57,7 @@ class GD2Test extends WideImage_TestCase
 		
 		// string contains valid image data
 		$handle = imagecreatefromstring($string);
-		$this->assertTrue(is_resource($handle));
+		$this->assertTrue(WideImage::isValidImageHandle($handle));
 		imagedestroy($handle);
 	}
 	

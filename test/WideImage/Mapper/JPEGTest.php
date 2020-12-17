@@ -21,6 +21,7 @@
 
 namespace Test\WideImage\Mapper;
 
+use WideImage\WideImage;
 use WideImage\MapperFactory;
 use Test\WideImage_TestCase;
 
@@ -48,7 +49,7 @@ class JPEGTest extends WideImage_TestCase
 	public function testLoad()
 	{
 		$handle = $this->mapper->load(IMG_PATH . 'fgnl.jpg');
-		$this->assertTrue(is_resource($handle));
+		$this->assertTrue(WideImage::isValidImageHandle($handle));
 		$this->assertEquals(174, imagesx($handle));
 		$this->assertEquals(287, imagesy($handle));
 		imagedestroy($handle);
@@ -65,7 +66,7 @@ class JPEGTest extends WideImage_TestCase
 		
 		// string contains valid image data
 		$handle = imagecreatefromstring($string);
-		$this->assertTrue(is_resource($handle));
+		$this->assertTrue(WideImage::isValidImageHandle($handle));
 		imagedestroy($handle);
 	}
 	
@@ -78,7 +79,7 @@ class JPEGTest extends WideImage_TestCase
 		
 		// file is a valid image
 		$handle = imagecreatefromjpeg(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.jpg');
-		$this->assertTrue(is_resource($handle));
+		$this->assertTrue(WideImage::isValidImageHandle($handle));
 		imagedestroy($handle);
 	}
 	

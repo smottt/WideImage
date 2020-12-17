@@ -60,7 +60,7 @@ class BMPTest extends WideImage_TestCase
 	public function testLoad($image, $width, $height)
 	{
 		$handle = $this->mapper->load($image);
-		$this->assertTrue(is_resource($handle));
+		$this->assertTrue(WideImage::isValidImageHandle($handle));
 		$this->assertEquals($width, imagesx($handle));
 		$this->assertEquals($height, imagesy($handle));
 		imagedestroy($handle);
