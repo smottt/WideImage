@@ -21,6 +21,7 @@
 
 namespace Test\WideImage\Mapper;
 
+use WideImage\WideImage;
 use Test\WideImage_TestCase;
 use WideImage\MapperFactory;
 use WideImage\vendor\de77;
@@ -49,7 +50,7 @@ class TGATest extends WideImage_TestCase
 	public function testLoad()
 	{
 		$handle = $this->mapper->load(IMG_PATH . 'splat.tga');
-		$this->assertTrue(is_resource($handle));
+		$this->assertTrue(WideImage::isValidImageHandle($handle));
 		$this->assertEquals(100, imagesx($handle));
 		$this->assertEquals(100, imagesy($handle));
 		imagedestroy($handle);
