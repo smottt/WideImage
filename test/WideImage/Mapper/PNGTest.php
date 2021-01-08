@@ -21,6 +21,7 @@
 
 namespace Test\WideImage;
 
+use WideImage\WideImage;
 use WideImage\MapperFactory;
 use Test\WideImage_TestCase;
 
@@ -48,7 +49,7 @@ class PNGTest extends WideImage_TestCase
 	public function testLoad()
 	{
 		$handle = $this->mapper->load(IMG_PATH . '100x100-color-hole.png');
-		$this->assertTrue(is_resource($handle));
+		$this->assertTrue(WideImage::isValidImageHandle($handle));
 		$this->assertEquals(100, imagesx($handle));
 		$this->assertEquals(100, imagesy($handle));
 		imagedestroy($handle);
@@ -65,7 +66,7 @@ class PNGTest extends WideImage_TestCase
 		
 		// string contains valid image data
 		$handle = imagecreatefromstring($string);
-		$this->assertTrue(is_resource($handle));
+		$this->assertTrue(WideImage::isValidImageHandle($handle));
 		imagedestroy($handle);
 	}
 	
@@ -78,7 +79,7 @@ class PNGTest extends WideImage_TestCase
 		
 		// file is a valid image
 		$handle = imagecreatefrompng(IMG_PATH . 'temp/test.png');
-		$this->assertTrue(is_resource($handle));
+		$this->assertTrue(WideImage::isValidImageHandle($handle));
 		imagedestroy($handle);
 	}
 	
