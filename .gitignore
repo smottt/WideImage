@@ -3,6 +3,7 @@
 /.project
 /.settings
 /bin/*
+/build
 /composer.lock
 /nbproject
 /vendor
