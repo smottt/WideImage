@@ -5,4 +5,6 @@ namespace WideImage\Exception;
 /**
  * @package Exceptions
  */
-class InvalidFontFileException extends Exception {}
+class InvalidFontFileException extends Exception
+{
+}

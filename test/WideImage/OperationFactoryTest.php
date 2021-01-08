@@ -1,5 +1,5 @@
 <?php
-	/**
+    /**
     This file is part of WideImage.
 
     WideImage is free software; you can redistribute it and/or modify
@@ -32,24 +32,24 @@ use Test\WideImage_TestCase;
  */
 class OperationFactoryTest extends WideImage_TestCase
 {
-	public function testFactoryReturnsCached()
-	{
-		$op1 = OperationFactory::get('Mirror');
-		$op2 = OperationFactory::get('Mirror');
-		$this->assertSame($op1, $op2);
-	}
+    public function testFactoryReturnsCached()
+    {
+        $op1 = OperationFactory::get('Mirror');
+        $op2 = OperationFactory::get('Mirror');
+        $this->assertSame($op1, $op2);
+    }
 
-	/**
-	 * @expectedException WideImage\Exception\UnknownImageOperationException
-	 */
-	public function testNoOperation()
-	{
-		OperationFactory::get('NoSuchOp');
-	}
+    /**
+     * @expectedException WideImage\Exception\UnknownImageOperationException
+     */
+    public function testNoOperation()
+    {
+        OperationFactory::get('NoSuchOp');
+    }
 
-	public function testUserDefinedOp()
-	{
-		$op = OperationFactory::get('MyOperation');
-		$this->assertTrue($op instanceof MyOperation);
-	}
+    public function testUserDefinedOp()
+    {
+        $op = OperationFactory::get('MyOperation');
+        $this->assertTrue($op instanceof MyOperation);
+    }
 }

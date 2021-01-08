@@ -1,5 +1,5 @@
 <?php
-	/**
+    /**
 ##DOC-SIGNATURE##
 
     This file is part of WideImage.
@@ -18,7 +18,7 @@
     along with WideImage; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-	* @package Internals
+    * @package Internals
   **/
 
 namespace WideImage;
@@ -33,24 +33,24 @@ use WideImage\Exception\UnknownImageOperationException;
  **/
 class OperationFactory
 {
-	protected static $cache = [];
+    protected static $cache = [];
 
-	public static function get($operationName)
-	{
-		$lcname = strtolower($operationName);
+    public static function get($operationName)
+    {
+        $lcname = strtolower($operationName);
 
-		if (!isset(self::$cache[$lcname])) {
-			$opClassName = "\\WideImage\\Operation\\" . ucfirst($operationName);
+        if (!isset(self::$cache[$lcname])) {
+            $opClassName = "\\WideImage\\Operation\\" . ucfirst($operationName);
 
-			// why not use autoloading?
-			// if (!class_exists($opClassName, false)) {
-			if (!class_exists($opClassName)) {
-				throw new UnknownImageOperationException("Can't load '{$operationName}' operation.");
-			}
+            // why not use autoloading?
+            // if (!class_exists($opClassName, false)) {
+            if (!class_exists($opClassName)) {
+                throw new UnknownImageOperationException("Can't load '{$operationName}' operation.");
+            }
 
-			self::$cache[$lcname] = new $opClassName();
-		}
+            self::$cache[$lcname] = new $opClassName();
+        }
 
-		return self::$cache[$lcname];
-	}
+        return self::$cache[$lcname];
+    }
 }

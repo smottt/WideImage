@@ -7,4 +7,6 @@ namespace WideImage\Exception;
  *
  * @package Exceptions
  */
-class InvalidImageDimensionException extends Exception {}
+class InvalidImageDimensionException extends Exception
+{
+}

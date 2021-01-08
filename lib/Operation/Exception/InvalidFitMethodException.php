@@ -7,4 +7,6 @@ namespace WideImage\Operation\Exception;
  *
  * @package Internal/Operations
  */
-class InvalidFitMethodException extends \WideImage\Exception\Exception {}
+class InvalidFitMethodException extends \WideImage\Exception\Exception
+{
+}

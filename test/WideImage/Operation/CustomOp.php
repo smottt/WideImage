@@ -7,12 +7,12 @@ namespace WideImage\Operation;
  */
 class CustomOp
 {
-	public static $args = null;
+    public static $args = null;
 
-	public function execute()
-	{
-		static::$args = func_get_args();
+    public function execute()
+    {
+        static::$args = func_get_args();
 
-		return static::$args[0]->copy();
-	}
+        return static::$args[0]->copy();
+    }
 }

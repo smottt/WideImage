@@ -7,4 +7,6 @@ namespace WideImage\Exception;
  *
  * @package Exceptions
  */
-class UnsupportedFormatException extends Exception {}
+class UnsupportedFormatException extends Exception
+{
+}

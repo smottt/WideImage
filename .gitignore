@@ -1,9 +1,12 @@
 /.buildpath
 /.idea
+/.php_cs.cache
 /.project
 /.settings
 /bin/*
 /build
 /composer.lock
 /nbproject
+/test/images/temp/*
+/test/images/temp/!.gitkeep
 /vendor

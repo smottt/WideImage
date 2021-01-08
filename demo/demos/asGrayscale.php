@@ -1,13 +1,13 @@
 <?php
-	/**
-	 * @package Demos
-	 */
-	class Demo_asGrayscale extends Demo
-	{
-		public $order = 300;
-		
-		function execute($img, $request)
-		{
-			return $img->asGrayscale();
-		}
-	}
+    /**
+     * @package Demos
+     */
+    class Demo_asGrayscale extends Demo
+    {
+        public $order = 300;
+        
+        public function execute($img, $request)
+        {
+            return $img->asGrayscale();
+        }
+    }

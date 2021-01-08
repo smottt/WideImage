@@ -7,4 +7,6 @@ namespace WideImage\Operation\Exception;
  *
  * @package Internal/Operations
  */
-class InvalidResizeDimensionException extends \WideImage\Exception\Exception {}
+class InvalidResizeDimensionException extends \WideImage\Exception\Exception
+{
+}

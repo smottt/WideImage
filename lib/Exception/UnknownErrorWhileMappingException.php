@@ -7,4 +7,6 @@ namespace WideImage\Exception;
  *
  * @package Exceptions
  */
-class UnknownErrorWhileMappingException extends Exception {}
+class UnknownErrorWhileMappingException extends Exception
+{
+}

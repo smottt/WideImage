@@ -34,22 +34,22 @@ $bbox = imageftbbox($font_size, $angle, $font, $text);
 
 function normalize_bbox($bbox)
 {
-	return array(
-			'up-left' => array('x' => $bbox[6], 'y' => $bbox[7]),
-			'up-right' => array('x' => $bbox[4], 'y' => $bbox[5]),
-			'down-left' => array('x' => $bbox[0], 'y' => $bbox[1]),
-			'down-right' => array('x' => $bbox[2], 'y' => $bbox[3]),
-		);
+    return [
+            'up-left' => ['x' => $bbox[6], 'y' => $bbox[7]],
+            'up-right' => ['x' => $bbox[4], 'y' => $bbox[5]],
+            'down-left' => ['x' => $bbox[0], 'y' => $bbox[1]],
+            'down-right' => ['x' => $bbox[2], 'y' => $bbox[3]],
+        ];
 }
 
 function outer_box($box)
 {
-	return array(
-		'left' => min($box['up-left']['x'], $box['up-right']['x'], $box['down-left']['x'], $box['down-right']['x']),
-		'top' => min($box['up-left']['y'], $box['up-right']['y'], $box['down-left']['y'], $box['down-right']['y']),
-		'right' => max($box['up-left']['x'], $box['up-right']['x'], $box['down-left']['x'], $box['down-right']['x']),
-		'bottom' => max($box['up-left']['y'], $box['up-right']['y'], $box['down-left']['y'], $box['down-right']['y'])
-	);
+    return [
+        'left' => min($box['up-left']['x'], $box['up-right']['x'], $box['down-left']['x'], $box['down-right']['x']),
+        'top' => min($box['up-left']['y'], $box['up-right']['y'], $box['down-left']['y'], $box['down-right']['y']),
+        'right' => max($box['up-left']['x'], $box['up-right']['x'], $box['down-left']['x'], $box['down-right']['x']),
+        'bottom' => max($box['up-left']['y'], $box['up-right']['y'], $box['down-left']['y'], $box['down-right']['y'])
+    ];
 }
 
 $box = normalize_bbox($bbox);

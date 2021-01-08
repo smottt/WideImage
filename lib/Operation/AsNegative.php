@@ -1,5 +1,5 @@
 <?php
-	/**
+    /**
 ##DOC-SIGNATURE##
 
     This file is part of WideImage.
@@ -32,44 +32,44 @@ use WideImage\Exception\GDFunctionResultException;
  */
 class AsNegative
 {
-	/**
-	 * Returns a greyscale copy of an image
-	 *
-	 * @param  \WideImage\Image $image
-	 * @return \WideImage\Image
-	 */
-	public function execute($image)
-	{
-		$palette     = !$image->isTrueColor();
-		$transparent = $image->isTransparent();
+    /**
+     * Returns a greyscale copy of an image
+     *
+     * @param  \WideImage\Image $image
+     * @return \WideImage\Image
+     */
+    public function execute($image)
+    {
+        $palette     = !$image->isTrueColor();
+        $transparent = $image->isTransparent();
 
-		if ($palette && $transparent) {
-			$tcrgb = $image->getTransparentColorRGB();
-		}
+        if ($palette && $transparent) {
+            $tcrgb = $image->getTransparentColorRGB();
+        }
 
-		$new = $image->asTrueColor();
+        $new = $image->asTrueColor();
 
-		if (!imagefilter($new->getHandle(), IMG_FILTER_NEGATE)) {
-			throw new GDFunctionResultException("imagefilter() returned false");
-		}
+        if (!imagefilter($new->getHandle(), IMG_FILTER_NEGATE)) {
+            throw new GDFunctionResultException("imagefilter() returned false");
+        }
 
-		if ($palette) {
-			$new = $new->asPalette();
+        if ($palette) {
+            $new = $new->asPalette();
 
-			if ($transparent) {
-				$irgb = array(
-					'red'   => 255 - $tcrgb['red'],
-					'green' => 255 - $tcrgb['green'],
-					'blue'  => 255 - $tcrgb['blue'],
-					'alpha' => 127
-				);
+            if ($transparent) {
+                $irgb = [
+                    'red'   => 255 - $tcrgb['red'],
+                    'green' => 255 - $tcrgb['green'],
+                    'blue'  => 255 - $tcrgb['blue'],
+                    'alpha' => 127
+                ];
 
-				// needs imagecolorexactalpha instead of imagecolorexact, otherwise doesn't work on some transparent GIF images
-				$new_tci = imagecolorexactalpha($new->getHandle(), $irgb['red'], $irgb['green'], $irgb['blue'], 127);
-				$new->setTransparentColor($new_tci);
-			}
-		}
+                // needs imagecolorexactalpha instead of imagecolorexact, otherwise doesn't work on some transparent GIF images
+                $new_tci = imagecolorexactalpha($new->getHandle(), $irgb['red'], $irgb['green'], $irgb['blue'], 127);
+                $new->setTransparentColor($new_tci);
+            }
+        }
 
-		return $new;
-	}
+        return $new;
+    }
 }

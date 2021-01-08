@@ -1,5 +1,5 @@
 <?php
-	/**
+    /**
 ##DOC-SIGNATURE##
 
     This file is part of WideImage.
@@ -33,18 +33,18 @@ use WideImage\Exception\Exception;
  */
 class TGA
 {
-	public function load($uri)
-	{
-		return de77\TGA::imagecreatefromtga($uri);
-	}
+    public function load($uri)
+    {
+        return de77\TGA::imagecreatefromtga($uri);
+    }
 
-	public function loadFromString($data)
-	{
-		return de77\TGA::imagecreatefromstring($data);
-	}
+    public function loadFromString($data)
+    {
+        return de77\TGA::imagecreatefromstring($data);
+    }
 
-	public function save($handle, $uri = null)
-	{
-		throw new Exception('Saving to TGA is not supported.');
-	}
+    public function save($handle, $uri = null)
+    {
+        throw new Exception('Saving to TGA is not supported.');
+    }
 }

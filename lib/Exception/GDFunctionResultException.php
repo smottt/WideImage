@@ -7,4 +7,6 @@ namespace WideImage\Exception;
  *
  * Class for invalid GD function calls result (for example those that return bool)
  */
-class GDFunctionResultException extends Exception {}
+class GDFunctionResultException extends Exception
+{
+}

@@ -21,7 +21,8 @@ require_once DEMO_PATH . 'helpers/SelectField.php';
 require_once DEMO_PATH . 'helpers/FormatSelectField.php';
 require_once DEMO_PATH . 'helpers/ColorField.php';
 
-function __autoload($className) {
+function __autoload($className)
+{
     $className = ltrim($className, '\\');
     $fileName = '';
     $namespace = '';
@@ -34,4 +35,3 @@ function __autoload($className) {
 
     require DEMO_PATH.'../lib/'.$fileName;
 }
-

@@ -1,5 +1,5 @@
 <?php
-	/**
+    /**
     This file is part of WideImage.
 
     WideImage is free software; you can redistribute it and/or modify
@@ -31,68 +31,68 @@ use Test\WideImage_TestCase;
  */
 class BMPTest extends WideImage_TestCase
 {
-	/**
-	 * @var WideImage_Mapper_BMP
-	 */
-	protected $mapper;
+    /**
+     * @var WideImage_Mapper_BMP
+     */
+    protected $mapper;
 
-	public function setup()
-	{
-		$this->mapper = MapperFactory::selectMapper(null, 'bmp');
-	}
+    public function setup()
+    {
+        $this->mapper = MapperFactory::selectMapper(null, 'bmp');
+    }
 
-	public function teardown()
-	{
-		$this->mapper = null;
-	}
+    public function teardown()
+    {
+        $this->mapper = null;
+    }
 
-	public function imageProvider()
-	{
-		return array(
-			[IMG_PATH . 'fgnl.bmp', 174, 287],
-			[IMG_PATH . 'bmp' . DIRECTORY_SEPARATOR . 'favicon.ico', 30, 30]
-		);
-	}
+    public function imageProvider()
+    {
+        return [
+            [IMG_PATH . 'fgnl.bmp', 174, 287],
+            [IMG_PATH . 'bmp' . DIRECTORY_SEPARATOR . 'favicon.ico', 30, 30]
+        ];
+    }
 
-	/**
-	 * @dataProvider imageProvider
-	 */
-	public function testLoad($image, $width, $height)
-	{
-		$handle = $this->mapper->load($image);
-		$this->assertTrue(WideImage::isValidImageHandle($handle));
-		$this->assertEquals($width, imagesx($handle));
-		$this->assertEquals($height, imagesy($handle));
-		imagedestroy($handle);
-	}
+    /**
+     * @dataProvider imageProvider
+     */
+    public function testLoad($image, $width, $height)
+    {
+        $handle = $this->mapper->load($image);
+        $this->assertTrue(WideImage::isValidImageHandle($handle));
+        $this->assertEquals($width, imagesx($handle));
+        $this->assertEquals($height, imagesy($handle));
+        imagedestroy($handle);
+    }
 
-	public function testSaveToString()
-	{
-		$handle = de77\BMP::imagecreatefrombmp(IMG_PATH . 'fgnl.bmp');
-		ob_start();
-		$this->mapper->save($handle);
-		$string = ob_get_clean();
-		$this->assertTrue(strlen($string) > 0);
-		imagedestroy($handle);
+    public function testSaveToString()
+    {
+        $handle = de77\BMP::imagecreatefrombmp(IMG_PATH . 'fgnl.bmp');
+        ob_start();
+        $this->mapper->save($handle);
+        $string = ob_get_clean();
+        $this->assertTrue(strlen($string) > 0);
+        imagedestroy($handle);
 
-		// string contains valid image data
-		$handle = $this->mapper->loadFromString($string);
-		$this->assertTrue(WideImage::isValidImageHandle($handle));
-		imagedestroy($handle);
-	}
+        // string contains valid image data
+        $handle = $this->mapper->loadFromString($string);
+        $this->assertTrue(WideImage::isValidImageHandle($handle));
+        imagedestroy($handle);
+    }
 
-	public function testSaveToFile()
-	{
-		$handle = imagecreatefromgif(IMG_PATH . '100x100-color-hole.gif');
-		$this->mapper->save($handle, IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.bmp');
-		$this->assertTrue(filesize(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.bmp') > 0);
-		imagedestroy($handle);
+    public function testSaveToFile()
+    {
+        $handle = imagecreatefromgif(IMG_PATH . '100x100-color-hole.gif');
+        $this->mapper->save($handle, IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.bmp');
+        $this->assertTrue(filesize(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.bmp') > 0);
+        imagedestroy($handle);
 
-		// file is a valid image
-		$handle = $this->mapper->load(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.bmp');
-		$this->assertTrue(WideImage::isValidImageHandle($handle));
-		imagedestroy($handle);
+        // file is a valid image
+        $handle = $this->mapper->load(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.bmp');
+        $this->assertTrue(WideImage::isValidImageHandle($handle));
+        imagedestroy($handle);
 
-		unlink(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.bmp');
-	}
+        unlink(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.bmp');
+    }
 }

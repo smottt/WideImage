@@ -5,4 +5,6 @@ namespace WideImage\Exception;
 /**
  * @package Exceptions
  */
-class InvalidImageHandleException extends Exception {}
+class InvalidImageHandleException extends Exception
+{
+}

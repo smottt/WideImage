@@ -1,5 +1,5 @@
 <?php
-	/**
+    /**
 ##DOC-SIGNATURE##
 
     This file is part of WideImage.
@@ -34,131 +34,131 @@ namespace WideImage\Operation;
  */
 class Unsharp
 {
-	/**
-	 * Returns sharpened image
-	 *
-	 * @param \WideImage\Image $image
-	 * @param float $amount
-	 * @param int $radius
-	 * @param float $threshold
-	 * @return \WideImage\Image
-	 */
-	public function execute($image, $amount, $radius, $threshold)
-	{
-		// Attempt to calibrate the parameters to Photoshop:
-		if ($amount > 500) {
-			$amount = 500;
-		}
+    /**
+     * Returns sharpened image
+     *
+     * @param \WideImage\Image $image
+     * @param float $amount
+     * @param int $radius
+     * @param float $threshold
+     * @return \WideImage\Image
+     */
+    public function execute($image, $amount, $radius, $threshold)
+    {
+        // Attempt to calibrate the parameters to Photoshop:
+        if ($amount > 500) {
+            $amount = 500;
+        }
 
-		$amount = $amount * 0.016;
+        $amount = $amount * 0.016;
 
-		if ($radius > 50) {
-			$radius = 50;
-		}
+        if ($radius > 50) {
+            $radius = 50;
+        }
 
-		$radius = $radius * 2;
+        $radius = $radius * 2;
 
-		if ($threshold > 255) {
-			$threshold = 255;
-		}
+        if ($threshold > 255) {
+            $threshold = 255;
+        }
 
-		$radius = abs(round($radius)); // Only integers make sense.
+        $radius = abs(round($radius)); // Only integers make sense.
 
-		if ($radius == 0) {
-			return $image;
-		}
+        if ($radius == 0) {
+            return $image;
+        }
 
-		// Gaussian blur matrix
-		$matrix = array(
-			[1, 2, 1],
-			[2, 4, 2],
-			[1, 2, 1]
-		);
+        // Gaussian blur matrix
+        $matrix = [
+            [1, 2, 1],
+            [2, 4, 2],
+            [1, 2, 1]
+        ];
 
-		$blurred = $image->applyConvolution($matrix, 16, 0);
+        $blurred = $image->applyConvolution($matrix, 16, 0);
 
-		if ($threshold > 0) {
-			// Calculate the difference between the blurred pixels and the original
-			// and set the pixels
-			for ($x = 0; $x < $image->getWidth(); $x++) {
-				for ($y = 0; $y < $image->getHeight(); $y++) {
-					$rgbOrig = $image->getRGBAt($x, $y);
-					$rOrig   = $rgbOrig['red'];
-					$gOrig   = $rgbOrig['green'];
-					$bOrig   = $rgbOrig['blue'];
+        if ($threshold > 0) {
+            // Calculate the difference between the blurred pixels and the original
+            // and set the pixels
+            for ($x = 0; $x < $image->getWidth(); $x++) {
+                for ($y = 0; $y < $image->getHeight(); $y++) {
+                    $rgbOrig = $image->getRGBAt($x, $y);
+                    $rOrig   = $rgbOrig['red'];
+                    $gOrig   = $rgbOrig['green'];
+                    $bOrig   = $rgbOrig['blue'];
 
-					$rgbBlur = $blurred->getRGBAt($x, $y);
-					$rBlur   = $rgbBlur['red'];
-					$gBlur   = $rgbBlur['green'];
-					$bBlur   = $rgbBlur['blue'];
+                    $rgbBlur = $blurred->getRGBAt($x, $y);
+                    $rBlur   = $rgbBlur['red'];
+                    $gBlur   = $rgbBlur['green'];
+                    $bBlur   = $rgbBlur['blue'];
 
-					// When the masked pixels differ less from the original
-					// than the threshold specifies, they are set to their original value.
-					$rNew = (abs($rOrig - $rBlur) >= $threshold)
-						? max(0, min(255, ($amount * ($rOrig - $rBlur)) + $rOrig))
-						: $rOrig;
-					$gNew = (abs($gOrig - $gBlur) >= $threshold)
-						? max(0, min(255, ($amount * ($gOrig - $gBlur)) + $gOrig))
-						: $gOrig;
-					$bNew = (abs($bOrig - $bBlur) >= $threshold)
-						? max(0, min(255, ($amount * ($bOrig - $bBlur)) + $bOrig))
-						: $bOrig;
-					$rgbNew = array(
-						'red'   => $rNew,
-						'green' => $gNew,
-						'blue'  => $bNew,
-						'alpha' => 0
-					);
+                    // When the masked pixels differ less from the original
+                    // than the threshold specifies, they are set to their original value.
+                    $rNew = (abs($rOrig - $rBlur) >= $threshold)
+                        ? max(0, min(255, ($amount * ($rOrig - $rBlur)) + $rOrig))
+                        : $rOrig;
+                    $gNew = (abs($gOrig - $gBlur) >= $threshold)
+                        ? max(0, min(255, ($amount * ($gOrig - $gBlur)) + $gOrig))
+                        : $gOrig;
+                    $bNew = (abs($bOrig - $bBlur) >= $threshold)
+                        ? max(0, min(255, ($amount * ($bOrig - $bBlur)) + $bOrig))
+                        : $bOrig;
+                    $rgbNew = [
+                        'red'   => $rNew,
+                        'green' => $gNew,
+                        'blue'  => $bNew,
+                        'alpha' => 0
+                    ];
 
-					if (($rOrig != $rNew) || ($gOrig != $gNew) || ($bOrig != $bNew)) {
-						$image->setRGBAt($x, $y, $rgbNew);
-					}
-				}
-			}
-		} else {
-			$w = $image->getWidth();
-			$h = $image->getHeight();
+                    if (($rOrig != $rNew) || ($gOrig != $gNew) || ($bOrig != $bNew)) {
+                        $image->setRGBAt($x, $y, $rgbNew);
+                    }
+                }
+            }
+        } else {
+            $w = $image->getWidth();
+            $h = $image->getHeight();
 
-			for ($x = 0; $x < $w; $x++) {
-				for ($y = 0; $y < $h; $y++) {
-					$rgbOrig = $image->getRGBAt($x, $y);
-					$rOrig   = $rgbOrig['red'];
-					$gOrig   = $rgbOrig['green'];
-					$bOrig   = $rgbOrig['blue'];
+            for ($x = 0; $x < $w; $x++) {
+                for ($y = 0; $y < $h; $y++) {
+                    $rgbOrig = $image->getRGBAt($x, $y);
+                    $rOrig   = $rgbOrig['red'];
+                    $gOrig   = $rgbOrig['green'];
+                    $bOrig   = $rgbOrig['blue'];
 
-					$rgbBlur = $blurred->getRGBAt($x, $y);
-					$rBlur   = $rgbBlur['red'];
-					$gBlur   = $rgbBlur['green'];
-					$bBlur   = $rgbBlur['blue'];
+                    $rgbBlur = $blurred->getRGBAt($x, $y);
+                    $rBlur   = $rgbBlur['red'];
+                    $gBlur   = $rgbBlur['green'];
+                    $bBlur   = $rgbBlur['blue'];
 
-					$rNew   = static::bit(($amount * ($rOrig - $rBlur)) + $rOrig);
-					$gNew   = static::bit(($amount * ($gOrig - $gBlur)) + $gOrig);
-					$bNew   = static::bit(($amount * ($bOrig - $bBlur)) + $bOrig);
-					$rgbNew = array(
-						'red'   => $rNew,
-						'green' => $gNew,
-						'blue'  => $bNew,
-						'alpha' => 0
-					);
+                    $rNew   = static::bit(($amount * ($rOrig - $rBlur)) + $rOrig);
+                    $gNew   = static::bit(($amount * ($gOrig - $gBlur)) + $gOrig);
+                    $bNew   = static::bit(($amount * ($bOrig - $bBlur)) + $bOrig);
+                    $rgbNew = [
+                        'red'   => $rNew,
+                        'green' => $gNew,
+                        'blue'  => $bNew,
+                        'alpha' => 0
+                    ];
 
-					$image->setRGBAt($x, $y, $rgbNew);
-				}
-			}
-		}
+                    $image->setRGBAt($x, $y, $rgbNew);
+                }
+            }
+        }
 
-		return $image;
-	}
+        return $image;
+    }
 
-	protected static function bit($val)
-	{
-		if ($val > 255) {
-			return 255;
-		}
+    protected static function bit($val)
+    {
+        if ($val > 255) {
+            return 255;
+        }
 
-		if ($val < 0) {
-			return 0;
-		}
+        if ($val < 0) {
+            return 0;
+        }
 
-		return $val;
-	}
+        return $val;
+    }
 }

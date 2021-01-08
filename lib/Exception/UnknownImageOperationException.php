@@ -5,4 +5,6 @@ namespace WideImage\Exception;
 /**
  * @package Exceptions
  */
-class UnknownImageOperationException extends Exception {}
+class UnknownImageOperationException extends Exception
+{
+}
