@@ -14,7 +14,7 @@ if (ini_get('xdebug.scream')) {
     ini_set('xdebug.scream', 0);
 }
 
-abstract class WideImage_TestCase extends \PHPUnit_Framework_TestCase
+abstract class WideImage_TestCase extends \PHPUnit\Framework\TestCase
 {
     public function load($file)
     {

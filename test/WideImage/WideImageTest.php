@@ -39,13 +39,19 @@ class WideImageTest extends WideImage_TestCase
 {
     protected $_FILES;
 
-    public function setup()
+    /**
+     * @before
+     */
+    public function doSetUp()
     {
         $this->_FILES = $_FILES;
         $_FILES = [];
     }
 
-    public function teardown()
+    /**
+     * @after
+     */
+    public function doTearDown()
     {
         $_FILES = $this->_FILES;
 
