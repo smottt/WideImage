@@ -21,7 +21,10 @@
         "symfony/phpunit-bridge": "^5.2",
         "friendsofphp/php-cs-fixer": "~2.17"
     },
-    "config": {
-        "bin-dir": "bin"
+    "scripts": {
+        "test": "simple-phpunit --verbose --bootstrap test/test-init.php test/WideImage"
+    },
+    "scripts-descriptions": {
+        "test": "Run all tests"
     }
 }
