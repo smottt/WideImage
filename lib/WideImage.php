@@ -102,6 +102,19 @@ class WideImage
     }
 
     /**
+     * Unregisters a custom mapper
+     *
+     * Example:
+     * <code>
+     *  \WideImage::WideImage::unregisterCustomMapper('\\WideImage\\Mapper\\TGA', 'image/tga');
+     * </code>
+     */
+    public static function unregisterCustomMapper($mapper_class_name, $mime_type)
+    {
+        MapperFactory::unregisterCustomMapper($mapper_class_name, $mime_type);
+    }
+
+    /**
      * Loads an image from a file, URL, HTML input file field, binary string, or a valid image handle.
      * The image format is auto-detected.
      *
@@ -155,7 +168,7 @@ class WideImage
         }
 
         // Uploaded image (array uploads not supported)
-        if (isset($_FILES[$source]) && isset($_FILES[$source]['tmp_name'])) {
+        if (is_scalar($source) && isset($_FILES[$source]['tmp_name'])) {
             $predictedSourceType = 'Upload';
         }
 
@@ -349,7 +362,7 @@ class WideImage
      */
     public static function isValidImageHandle($handle)
     {
-        return ($handle instanceof \GdImage || (is_resource($handle) && get_resource_type($handle) == 'gd'));
+        return $handle instanceof \GdImage || (is_resource($handle) && get_resource_type($handle) == 'gd');
     }
 
     /**

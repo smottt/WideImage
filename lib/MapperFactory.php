@@ -89,6 +89,14 @@ abstract class MapperFactory
         return self::$customMappers;
     }
 
+    public static function unregisterCustomMapper($mapper_class_name, $mime_type)
+    {
+        if (isset(self::$customMappers[$mime_type]) && self::$customMappers[$mime_type] === $mapper_class_name) {
+            unset(self::$customMappers[$mime_type]);
+            unset(self::$mimeTable[$mime_type]);
+        }
+    }
+
     public static function determineFormat($uri, $format = null)
     {
         if ($format == null) {
