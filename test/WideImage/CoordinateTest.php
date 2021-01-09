@@ -1,33 +1,34 @@
 <?php
-    /**
-    This file is part of WideImage.
 
-    WideImage is free software; you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation; either version 2.1 of the License, or
-    (at your option) any later version.
+/**
+ * This file is part of WideImage.
+ *
+ * WideImage is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * WideImage is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with WideImage; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ **/
 
-    WideImage is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public License
-    along with WideImage; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-  **/
+declare(strict_types = 1);
 
 namespace Test\WideImage;
 
 use WideImage\Coordinate;
-use Test\WideImage_TestCase;
+use Test\WideImageTestCase;
+use WideImage\Exception\InvalidCoordinateException;
 
-/**
- * @package Tests
- */
-class CoordinateTest extends WideImage_TestCase
+class CoordinateTest extends WideImageTestCase
 {
-    public function testEvaluate()
+    public function testEvaluate(): void
     {
         $this->assertSame(400, Coordinate::evaluate('+200%', 200));
         $this->assertSame(-1, Coordinate::evaluate('-1', 200));
@@ -37,7 +38,7 @@ class CoordinateTest extends WideImage_TestCase
         $this->assertSame(-30, Coordinate::evaluate('-15%', 200));
     }
     
-    public function testFix()
+    public function testFix(): void
     {
         $this->assertSame(10, Coordinate::fix('10%', 100));
         $this->assertSame(10, Coordinate::fix('10', 100));
@@ -64,7 +65,7 @@ class CoordinateTest extends WideImage_TestCase
         $this->assertSame(30, Coordinate::fix(' 50%  + 49.6666%', 30));
     }
     
-    public function testAlign()
+    public function testAlign(): void
     {
         $this->assertSame(0, Coordinate::fix('left', 300, 120));
         $this->assertSame(90, Coordinate::fix('center', 300, 120));
@@ -78,7 +79,7 @@ class CoordinateTest extends WideImage_TestCase
         $this->assertSame(90, Coordinate::fix('right - center', 300, 120));
     }
     
-    public function testAlignWithoutSecondaryCoordinate()
+    public function testAlignWithoutSecondaryCoordinate(): void
     {
         $this->assertSame(0, Coordinate::fix('left', 300));
         $this->assertSame(150, Coordinate::fix('center', 300));
@@ -92,7 +93,7 @@ class CoordinateTest extends WideImage_TestCase
         $this->assertSame(150, Coordinate::fix('right - center', 300));
     }
             
-    public function testMultipleOperands()
+    public function testMultipleOperands(): void
     {
         $this->assertSame(6, Coordinate::fix('100%-100+1     + 5', 100));
         $this->assertSame(1, Coordinate::fix('right      +1-   100     - 50%', 200));
@@ -100,11 +101,10 @@ class CoordinateTest extends WideImage_TestCase
         $this->assertSame(90, Coordinate::fix('100--++++-10', 200));
     }
     
-    /**
-     * @expectedException WideImage\Exception\InvalidCoordinateException
-     */
-    public function testInvalidSyntaxEndsWithOperator()
+    public function testInvalidSyntaxEndsWithOperator(): void
     {
+        $this->expectException(InvalidCoordinateException::class);
+
         Coordinate::fix('5+2+', 10);
     }
 }

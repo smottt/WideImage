@@ -1,23 +1,24 @@
 <?php
-    /**
-    This file is part of WideImage.
 
-    WideImage is free software; you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation; either version 2.1 of the License, or
-    (at your option) any later version.
+/**
+ * This file is part of WideImage.
+ *
+ * WideImage is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * WideImage is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with WideImage; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ **/
 
-    WideImage is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public License
-    along with WideImage; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    * @package Tests
-  **/
+declare(strict_types = 1);
 
 namespace Test\WideImage\Mapper;
 
@@ -25,29 +26,21 @@ use WideImage\Mapper\BMP;
 use WideImage\WideImage;
 use WideImage\MapperFactory;
 use WideImage\vendor\de77;
-use Test\WideImage_TestCase;
+use Test\WideImageTestCase;
 
-/**
- * @package Tests
- */
-class BMPTest extends WideImage_TestCase
+class BMPTest extends WideImageTestCase
 {
-    /**
-     * @var BMP
-     */
-    protected $mapper;
+    protected BMP $mapper;
 
-    public function setup()
+    /**
+     * @before
+     */
+    public function setUpMapper(): void
     {
         $this->mapper = MapperFactory::selectMapper(null, 'bmp');
     }
 
-    public function teardown()
-    {
-        $this->mapper = null;
-    }
-
-    public function imageProvider()
+    public function imageProvider(): array
     {
         return [
             [IMG_PATH . 'fgnl.bmp', 174, 287],
@@ -56,9 +49,14 @@ class BMPTest extends WideImage_TestCase
     }
 
     /**
+     * @test
      * @dataProvider imageProvider
+     *
+     * @param string $image
+     * @param int $width
+     * @param int $height
      */
-    public function testLoad($image, $width, $height)
+    public function testLoad(string $image, int $width, int $height): void
     {
         $handle = $this->mapper->load($image);
         $this->assertTrue(WideImage::isValidImageHandle($handle));
@@ -67,13 +65,13 @@ class BMPTest extends WideImage_TestCase
         imagedestroy($handle);
     }
 
-    public function testSaveToString()
+    public function testSaveToString(): void
     {
         $handle = de77\BMP::imagecreatefrombmp(IMG_PATH . 'fgnl.bmp');
         ob_start();
         $this->mapper->save($handle);
         $string = ob_get_clean();
-        $this->assertTrue(strlen($string) > 0);
+        $this->assertGreaterThan(0, strlen($string));
         imagedestroy($handle);
 
         // string contains valid image data
@@ -82,11 +80,11 @@ class BMPTest extends WideImage_TestCase
         imagedestroy($handle);
     }
 
-    public function testSaveToFile()
+    public function testSaveToFile(): void
     {
         $handle = imagecreatefromgif(IMG_PATH . '100x100-color-hole.gif');
         $this->mapper->save($handle, IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.bmp');
-        $this->assertTrue(filesize(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.bmp') > 0);
+        $this->assertGreaterThan(0, filesize(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.bmp'));
         imagedestroy($handle);
 
         // file is a valid image

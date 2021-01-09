@@ -25,17 +25,29 @@ namespace Test\WideImage\Operation;
 use Test\WideImageTestCase;
 use WideImage\TrueColorImage;
 
-class ApplyConvolutionTest extends WideImageTestCase
+class AutoCropTest extends WideImageTestCase
 {
-    public function testApplyConvolution(): void
+    public function testAutoCrop(): void
     {
-        $img = $this->load('100x100-color-hole.gif');
-        $result = $img->applyConvolution([[2, 0, 0], [0, -1, 0], [0, 0, -1]], 1, 220);
+        $img = $this->load('100x100-red-spot.png');
         
-        $this->assertInstanceOf(TrueColorImage::class, $result);
-        $this->assertTrue($result->isTransparent());
+        $cropped = $img->autocrop();
+        $this->assertInstanceOf(TrueColorImage::class, $cropped);
+        $this->assertEquals(71, $cropped->getWidth());
+        $this->assertEquals(70, $cropped->getHeight());
         
-        $this->assertEquals(100, $result->getWidth());
-        $this->assertEquals(100, $result->getHeight());
+        $this->assertRGBNear($cropped->getRGBAt(10, 10), 255, 0, 0);
+    }
+    
+    public function testAutoCropHalfImageBug(): void
+    {
+        $img = $this->load('100x100-red-spot-half-cut.png');
+        
+        $cropped = $img->autocrop();
+        $this->assertInstanceOf(TrueColorImage::class, $cropped);
+        $this->assertEquals(22, $cropped->getWidth());
+        $this->assertEquals(23, $cropped->getHeight());
+        
+        $this->assertRGBNear($cropped->getRGBAt(10, 10), 255, 0, 0);
     }
 }

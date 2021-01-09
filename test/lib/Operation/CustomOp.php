@@ -1,13 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace WideImage\Operation;
 
-/**
- * @package Tests
- */
 class CustomOp
 {
-    public static $args = null;
+    public static array $args;
 
     public function execute()
     {

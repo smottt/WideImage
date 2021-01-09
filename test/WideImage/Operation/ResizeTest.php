@@ -1,102 +1,98 @@
 <?php
-    /**
-    This file is part of WideImage.
 
-    WideImage is free software; you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation; either version 2.1 of the License, or
-    (at your option) any later version.
+/**
+ * This file is part of WideImage.
+ *
+ * WideImage is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * WideImage is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with WideImage; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ **/
 
-    WideImage is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public License
-    along with WideImage; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    * @package Tests
-  **/
+declare(strict_types = 1);
 
 namespace Test\WideImage\Operation;
 
+use WideImage\Operation\Resize;
+use WideImage\PaletteImage;
 use WideImage\WideImage;
 use WideImage\Image;
 use WideImage\TrueColorImage;
-use WideImage\Operation\Resize;
-use Test\WideImage_TestCase;
+use Test\WideImageTestCase;
 
-// WideImage_OperationFactory::get('Resize');
-
-class ResizeTestable extends Resize
+class ResizeTest extends WideImageTestCase
 {
-    public function prepareDimensions($img, $width, $height, $fit)
+    public function testProxyMethod(): void
     {
-        return parent::prepareDimensions($img, $width, $height, $fit);
-    }
-}
-
-/**
- * @package Tests
- */
-class ResizeTest extends WideImage_TestCase
-{
-    public function testProxyMethod()
-    {
-        $op = $this->getMockBuilder('WideImage\\Operation\\Resize')
+        $op = $this->getMockBuilder(Resize::class)
             ->setMethods(['execute'])
-            ->getMock();
+            ->getMock()
+        ;
 
-        $img = $this->getMockBuilder('WideImage\\PaletteImage')
+        $img = $this->getMockBuilder(PaletteImage::class)
             ->setMethods(['getOperation'])
             ->setConstructorArgs([imagecreate(10, 10)])
-            ->getMock();
-        $img->expects($this->exactly(2))->
-            method('getOperation')->with('Resize')->
-            will($this->returnValue($op));
-        
-        $op->expects($this->at(0))->
-            method('execute')->with($img, 'WIDTH', 'HEIGHT', 'FIT', 'SCALE');
-        
-        $op->expects($this->at(1))->
-            method('execute')->with($img, null, null, 'inside', 'any');
-        
+            ->getMock()
+        ;
+        $img->expects($this->exactly(2))
+            ->method('getOperation')
+            ->with(...['Resize'])
+            ->willReturn($op)
+        ;
+
+        $op->expects($this->exactly(2))
+            ->method('execute')
+            ->withConsecutive(
+                [$img, 'WIDTH', 'HEIGHT', 'FIT', 'SCALE'],
+                [$img, null, null, 'inside', 'any']
+            )
+        ;
+
         $img->resize('WIDTH', 'HEIGHT', 'FIT', 'SCALE');
         $img->resize();
     }
     
-    public function testResultTypeIsSameAsInput()
+    public function testResultTypeIsSameAsInput(): void
     {
-        $this->assertInstanceOf("WideImage\\PaletteImage", WideImage::createPaletteImage(20, 20)->resize(10, 10));
-        $this->assertInstanceOf("WideImage\\TrueColorImage", WideImage::createTrueColorImage(20, 20)->resize(10, 10));
+        $this->assertInstanceOf(PaletteImage::class, WideImage::createPaletteImage(20, 20)->resize(10, 10));
+        $this->assertInstanceOf(TrueColorImage::class, WideImage::createTrueColorImage(20, 20)->resize(10, 10));
     }
     
-    public function testResizeWithoutParametersDoesNothing()
+    public function testResizeWithoutParametersDoesNothing(): void
     {
         $img = WideImage::createTrueColorImage(70, 20);
         $res = $img->resize();
         $this->assertDimensions($res, $img->getWidth(), $img->getHeight());
     }
     
-    public function testPreservesTransparency()
+    public function testPreservesTransparency(): void
     {
         $img = $this->load('100x100-color-hole.gif');
         $this->assertTrue($img->isTransparent());
+
         $res = $img->resize(50, 50);
         $this->assertTrue($res->isTransparent());
         $this->assertTransparentColorMatch($img, $res);
         $this->assertEquals($res->getColorAt(25, 25), $res->getTransparentColor());
     }
     
-    public function testFitFill()
+    public function testFitFill(): void
     {
         $this->assertDimensions(WideImage::createPaletteImage(100, 50)->resize(100, 50, 'fill'), 100, 50);
         $this->assertDimensions(WideImage::createPaletteImage(100, 50)->resize(120, 30, 'fill'), 120, 30);
         $this->assertDimensions(WideImage::createPaletteImage(100, 50)->resize(20, 130, 'fill'), 20, 130);
     }
     
-    public function testFitOutside()
+    public function testFitOutside(): void
     {
         $this->assertDimensions(WideImage::createPaletteImage(100, 50)->resize(100, 50, 'outside'), 100, 50);
         $this->assertDimensions(WideImage::createPaletteImage(100, 50)->resize(120, 30, 'outside'), 120, 60);
@@ -104,7 +100,7 @@ class ResizeTest extends WideImage_TestCase
         $this->assertDimensions(WideImage::createPaletteImage(100, 50)->resize(20, 100, 'outside'), 200, 100);
     }
     
-    public function testFitInside()
+    public function testFitInside(): void
     {
         $this->assertDimensions(WideImage::createPaletteImage(100, 50)->resize(100, 50, 'inside'), 100, 50);
         $this->assertDimensions(WideImage::createPaletteImage(100, 50)->resize(120, 30, 'inside'), 60, 30);
@@ -113,7 +109,7 @@ class ResizeTest extends WideImage_TestCase
         $this->assertDimensions(WideImage::createPaletteImage(950, 266)->resize(256, null, 'inside'), 256, 72);
     }
     
-    public function testScaleDown()
+    public function testScaleDown(): void
     {
         $this->assertDimensions(WideImage::createPaletteImage(100, 50)->resize(100, 50, 'fill', 'down'), 100, 50);
         $this->assertDimensions(WideImage::createPaletteImage(100, 50)->resize(120, 60, 'fill', 'down'), 100, 50);
@@ -134,7 +130,7 @@ class ResizeTest extends WideImage_TestCase
         $this->assertDimensions(WideImage::createPaletteImage(100, 50)->resize(90, 30, 'outside', 'down'), 90, 45);
     }
     
-    public function testScaleUp()
+    public function testScaleUp(): void
     {
         $this->assertDimensions(WideImage::createPaletteImage(100, 50)->resize(100, 50, 'fill', 'up'), 100, 50);
         $this->assertDimensions(WideImage::createPaletteImage(100, 50)->resize(120, 60, 'fill', 'up'), 120, 60);
@@ -155,11 +151,11 @@ class ResizeTest extends WideImage_TestCase
         $this->assertDimensions(WideImage::createPaletteImage(100, 50)->resize(90, 30, 'outside', 'up'), 100, 50);
     }
     
-    public function testResizeFill()
+    public function testResizeFill(): void
     {
-        $img = WideImage::load(IMG_PATH . '100x100-color-hole.gif');
+        $img = $this->load('100x100-color-hole.gif');
         $resized = $img->resize(50, 20, 'fill');
-        $this->assertTrue($resized instanceof Image);
+        $this->assertInstanceOf(Image::class, $resized);
         $this->assertTrue($resized->isTransparent());
         $this->assertEquals(50, $resized->getWidth());
         $this->assertEquals(20, $resized->getHeight());
@@ -172,7 +168,7 @@ class ResizeTest extends WideImage_TestCase
         $this->assertRGBEqual($img->getTransparentColorRGB(), 255, 255, 255);
     }
     
-    public function testNullDimensionsAreCalculatedForFill()
+    public function testNullDimensionsAreCalculatedForFill(): void
     {
         $img = TrueColorImage::create(100, 50);
         $resized = $img->resize(30, null, 'fill');
@@ -195,25 +191,17 @@ class ResizeTest extends WideImage_TestCase
         $this->assertEquals(40, $resized->getHeight());
     }
     
-    public function testResizeInside()
+    public function testResizeInside(): void
     {
-        $img = WideImage::load(IMG_PATH . '100x100-color-hole.gif');
+        $img = $this->load('100x100-color-hole.gif');
         $resized = $img->resize(50, 20, 'inside');
-        $this->assertTrue($resized instanceof Image);
+        $this->assertInstanceOf(Image::class, $resized);
         $this->assertTrue($resized->isTransparent());
         $this->assertEquals(20, $resized->getWidth());
         $this->assertEquals(20, $resized->getHeight());
-        /*
-        $this->assertRGBEqual($resized->getRGBAt(5, 5), 255, 255, 0);
-        $this->assertRGBEqual($resized->getRGBAt(45, 5), 0, 0, 255);
-        $this->assertRGBEqual($resized->getRGBAt(45, 15), 0, 255, 0);
-        $this->assertRGBEqual($resized->getRGBAt(5, 15), 255, 0, 0);
-        $this->assertRGBEqual($resized->getRGBAt(25, 10), 255, 255, 255);
-        $this->assertRGBEqual($img->getTransparentColorRGB(), 255, 255, 255);
-        */
     }
     
-    public function testResizeDown()
+    public function testResizeDown(): void
     {
         $img = TrueColorImage::create(100, 100);
         $resized = $img->resizeDown(30);
@@ -241,7 +229,7 @@ class ResizeTest extends WideImage_TestCase
         $this->assertEquals($img->getHeight(), $resized->getHeight());
     }
     
-    public function testResizeUp()
+    public function testResizeUp(): void
     {
         $img = TrueColorImage::create(100, 100);
         $resized = $img->resizeUp(300);
@@ -269,27 +257,33 @@ class ResizeTest extends WideImage_TestCase
         $this->assertEquals($img->getHeight(), $resized->getHeight());
     }
     
-    /**
-     * @group bugs
-     */
-    public function testResizeBug214()
+    public function testResizeBug214(): void
     {
         $img = TrueColorImage::create(1600, 1200);
-        $op = new ResizeTestable();
-        $dim = $op->prepareDimensions($img, 214, null, 'outside');
+
+        $reflectionClass = new \ReflectionClass(Resize::class);
+
+        $prepareDimensions = $reflectionClass->getMethod('prepareDimensions');
+        $prepareDimensions->setAccessible(true);
+
+        $dim = $prepareDimensions->invoke(new Resize(), $img, 214, null, 'outside');
         $this->assertEquals(214, $dim['width']);
         $this->assertEquals(161, $dim['height']);
     }
     
     /**
-     * https://sourceforge.net/tracker/?func=detail&aid=3312764&group_id=190526&atid=933712
-     * @group bugs
+     * @link https://sourceforge.net/tracker/?func=detail&aid=3312764&group_id=190526&atid=933712
      */
-    public function testResizeBug950to256()
+    public function testResizeBug950to256(): void
     {
         $img = TrueColorImage::create(950, 266);
-        $op = new ResizeTestable();
-        $dim = $op->prepareDimensions($img, 256, null, 'inside');
+
+        $reflectionClass = new \ReflectionClass(Resize::class);
+
+        $prepareDimensions = $reflectionClass->getMethod('prepareDimensions');
+        $prepareDimensions->setAccessible(true);
+
+        $dim = $prepareDimensions->invoke(new Resize(), $img, 256, null, 'inside');
         $this->assertEquals(256, $dim['width']);
         $this->assertEquals(72, $dim['height']);
     }

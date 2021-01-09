@@ -1,52 +1,55 @@
 <?php
-    /**
-    This file is part of WideImage.
-
-    WideImage is free software; you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation; either version 2.1 of the License, or
-    (at your option) any later version.
-
-    WideImage is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public License
-    along with WideImage; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    * @package Tests
-  **/
-
-namespace Test\WideImage;
-
-use WideImage\WideImage;
-use WideImage\MapperFactory;
-use Test\WideImage_TestCase;
 
 /**
- * @package Tests
- */
-class PNGTest extends WideImage_TestCase
+ * This file is part of WideImage.
+ *
+ * WideImage is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * WideImage is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with WideImage; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ **/
+
+declare(strict_types = 1);
+
+namespace Test\WideImage\Mapper;
+
+use WideImage\Mapper\PNG;
+use WideImage\WideImage;
+use WideImage\MapperFactory;
+use Test\WideImageTestCase;
+
+class PNGTest extends WideImageTestCase
 {
-    protected $mapper;
-    
-    public function setup()
+    protected PNG $mapper;
+
+    /**
+     * @before
+     */
+    public function setUpMapper(): void
     {
         $this->mapper = MapperFactory::selectMapper(null, 'png');
     }
-    
-    public function teardown()
+
+    /**
+     * @after
+     */
+    public function removeTestFiles(): void
     {
-        $this->mapper = null;
-        
         if (file_exists(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.png')) {
             unlink(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.png');
         }
     }
     
-    public function testLoad()
+    public function testLoad(): void
     {
         $handle = $this->mapper->load(IMG_PATH . '100x100-color-hole.png');
         $this->assertTrue(WideImage::isValidImageHandle($handle));
@@ -55,13 +58,13 @@ class PNGTest extends WideImage_TestCase
         imagedestroy($handle);
     }
     
-    public function testSaveToString()
+    public function testSaveToString(): void
     {
         $handle = imagecreatefrompng(IMG_PATH . '100x100-color-hole.png');
         ob_start();
         $this->mapper->save($handle);
         $string = ob_get_clean();
-        $this->assertTrue(strlen($string) > 0);
+        $this->assertGreaterThan(0, strlen($string));
         imagedestroy($handle);
         
         // string contains valid image data
@@ -74,7 +77,7 @@ class PNGTest extends WideImage_TestCase
     {
         $handle = imagecreatefrompng(IMG_PATH . '100x100-color-hole.png');
         $this->mapper->save($handle, IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.png');
-        $this->assertTrue(filesize(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.png') > 0);
+        $this->assertGreaterThan(0, filesize(IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.png'));
         imagedestroy($handle);
         
         // file is a valid image
@@ -90,7 +93,7 @@ class PNGTest extends WideImage_TestCase
         $file2 = IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test-comp-9.png';
         $this->mapper->save($handle, $file1, 0);
         $this->mapper->save($handle, $file2, 9);
-        $this->assertTrue(filesize($file1) > filesize($file2));
+        $this->assertGreaterThan(filesize($file2), filesize($file1));
         
         unlink($file1);
         unlink($file2);

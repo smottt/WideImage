@@ -1,58 +1,59 @@
 <?php
-    /**
-    This file is part of WideImage.
 
-    WideImage is free software; you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation; either version 2.1 of the License, or
-    (at your option) any later version.
+/**
+ * This file is part of WideImage.
+ *
+ * WideImage is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * WideImage is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with WideImage; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ **/
 
-    WideImage is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public License
-    along with WideImage; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    * @package Tests
-  **/
+declare(strict_types = 1);
 
 namespace Test\WideImage;
 
-include_once __DIR__ . '/Mapper/FOO.php';
-include_once __DIR__ . '/Mapper/FOO2.php';
-
 use WideImage\Exception\InvalidImageSourceException;
+use WideImage\Mapper\FOO;
+use WideImage\Mapper\FOO2;
 use WideImage\WideImage;
 use WideImage\PaletteImage;
 use WideImage\TrueColorImage;
-use WideImage\Mapper\FOO;
-use WideImage\Mapper\FOO2;
-use Test\WideImage_TestCase;
+use Test\WideImageTestCase;
 
-/**
- * @package Tests
- */
-class WideImageTest extends WideImage_TestCase
+class WideImageTest extends WideImageTestCase
 {
-    protected $_FILES;
+    protected array $_FILES;
 
-    public function setup()
+    /**
+     * @before
+     */
+    public function setUpFiles(): void
     {
         $this->_FILES = $_FILES;
         $_FILES = [];
     }
 
-    public function teardown()
+    /**
+     * @after
+     */
+    public function remoteTemporaryFiles(): void
     {
         $_FILES = $this->_FILES;
 
-        if (PHP_OS == 'WINNT') {
-            chdir(IMG_PATH . "temp");
+        if (PHP_OS === 'WINNT') {
+            chdir(IMG_PATH . 'temp');
 
-            foreach (new \DirectoryIterator(IMG_PATH . "temp") as $file) {
+            foreach (new \DirectoryIterator(IMG_PATH . 'temp') as $file) {
                 if (!$file->isDot()) {
                     if ($file->isDir()) {
                         exec("rd /S /Q {$file->getFilename()}\n");
@@ -62,41 +63,47 @@ class WideImageTest extends WideImage_TestCase
                 }
             }
         } else {
-            exec("rm -rf " . IMG_PATH . 'temp/*');
+            exec('rm -rf ' . IMG_PATH . 'temp/*');
         }
+    }
 
+    /**
+     * @after
+     */
+    public function unregisterCustomMappers(): void
+    {
         WideImage::unregisterCustomMapper(FOO::class, 'image/foo');
         WideImage::unregisterCustomMapper(FOO2::class, 'image/foo2');
     }
 
-    public function testLoadFromFile()
+    public function testLoadFromFile(): void
     {
-        $img = WideImage::load(IMG_PATH . '100x100-red-transparent.gif');
-        $this->assertTrue($img instanceof PaletteImage);
+        $img = $this->load('100x100-red-transparent.gif');
+        $this->assertInstanceOf(PaletteImage::class, $img);
         $this->assertValidImage($img);
         $this->assertFalse($img->isTrueColor());
         $this->assertEquals(100, $img->getWidth());
         $this->assertEquals(100, $img->getHeight());
 
-        $img = WideImage::load(IMG_PATH . '100x100-rainbow.png');
-        $this->assertTrue($img instanceof TrueColorImage);
+        $img = $this->load('100x100-rainbow.png');
+        $this->assertInstanceOf(TrueColorImage::class, $img);
         $this->assertValidImage($img);
         $this->assertTrue($img->isTrueColor());
         $this->assertEquals(100, $img->getWidth());
         $this->assertEquals(100, $img->getHeight());
     }
 
-    public function testLoadFromString()
+    public function testLoadFromString(): void
     {
         $img = WideImage::load(file_get_contents(IMG_PATH . '100x100-rainbow.png'));
-        $this->assertTrue($img instanceof TrueColorImage);
+        $this->assertInstanceOf(TrueColorImage::class, $img);
         $this->assertValidImage($img);
         $this->assertTrue($img->isTrueColor());
         $this->assertEquals(100, $img->getWidth());
         $this->assertEquals(100, $img->getHeight());
     }
 
-    public function testLoadFromHandle()
+    public function testLoadFromHandle(): void
     {
         $handle = imagecreatefrompng(IMG_PATH . '100x100-rainbow.png');
         $img = WideImage::loadFromHandle($handle);
@@ -113,7 +120,7 @@ class WideImageTest extends WideImage_TestCase
         }
     }
 
-    public function testLoadFromUpload()
+    public function testLoadFromUpload(): void
     {
         copy(IMG_PATH . '100x100-rainbow.png', IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'upltmpimg');
         $_FILES = [
@@ -130,7 +137,7 @@ class WideImageTest extends WideImage_TestCase
         $this->assertValidImage($img);
     }
 
-    public function testLoadFromMultipleUploads()
+    public function testLoadFromMultipleUploads(): void
     {
         copy(IMG_PATH . '100x100-rainbow.png', IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'upltmpimg1');
         copy(IMG_PATH . 'splat.tga', IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'upltmpimg2');
@@ -151,7 +158,7 @@ class WideImageTest extends WideImage_TestCase
         ];
 
         $images = WideImage::loadFromUpload('testupl');
-        $this->assertInternalType("array", $images);
+        $this->assertInternalType('array', $images);
         $this->assertValidImage($images[0]);
         $this->assertValidImage($images[1]);
 
@@ -159,22 +166,22 @@ class WideImageTest extends WideImage_TestCase
         $this->assertValidImage($img);
     }
 
-    public function testLoadMagicalFromHandle()
+    public function testLoadMagicalFromHandle(): void
     {
         $img = WideImage::load(imagecreatefrompng(IMG_PATH . '100x100-rainbow.png'));
         $this->assertValidImage($img);
     }
 
 
-    public function testLoadMagicalFromBinaryString()
+    public function testLoadMagicalFromBinaryString(): void
     {
         $img = WideImage::load(file_get_contents(IMG_PATH . '100x100-rainbow.png'));
         $this->assertValidImage($img);
     }
 
-    public function testLoadMagicalFromFile()
+    public function testLoadMagicalFromFile(): void
     {
-        $img = WideImage::load(IMG_PATH . '100x100-rainbow.png');
+        $img = $this->load('100x100-rainbow.png');
         $this->assertValidImage($img);
         copy(IMG_PATH . '100x100-rainbow.png', IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'upltmpimg');
         $_FILES = [
@@ -190,37 +197,36 @@ class WideImageTest extends WideImage_TestCase
         $this->assertValidImage($img);
     }
 
-    public function testLoadFromStringWithCustomMapper()
+    public function testLoadFromStringWithCustomMapper(): void
     {
         $img = WideImage::loadFromString(file_get_contents(IMG_PATH . 'splat.tga'));
         $this->assertValidImage($img);
     }
 
-    public function testLoadFromFileWithInvalidExtension()
+    public function testLoadFromFileWithInvalidExtension(): void
     {
-        $img = WideImage::load(IMG_PATH . 'actually-a-png.jpg');
+        $img = $this->load('actually-a-png.jpg');
         $this->assertValidImage($img);
     }
 
-    public function testLoadFromFileWithInvalidExtensionWithCustomMapper()
+    public function testLoadFromFileWithInvalidExtensionWithCustomMapper(): void
     {
-        if (PHP_OS == 'WINNT') {
-            $this->markTestSkipped("For some reason, this test kills PHP my 32-bit Vista + PHP 5.3.1.");
+        if (PHP_OS === 'WINNT') {
+            $this->markTestSkipped('For some reason, this test kills PHP my 32-bit Vista + PHP 5.3.1.');
         }
 
         $img = WideImage::loadFromFile(IMG_PATH . 'fgnl-bmp.jpg');
         $this->assertValidImage($img);
     }
 
-    /**
-     * @expectedException WideImage\Exception\InvalidImageSourceException
-     */
-    public function testLoadFromStringEmpty()
+    public function testLoadFromStringEmpty(): void
     {
+        $this->expectException(InvalidImageSourceException::class);
+
         WideImage::loadFromString('');
     }
 
-    public function testLoadBMPMagicalFromUpload()
+    public function testLoadBMPMagicalFromUpload(): void
     {
         copy(IMG_PATH . 'fgnl.bmp', IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'upltmpimg');
         $_FILES = [
@@ -236,7 +242,7 @@ class WideImageTest extends WideImage_TestCase
         $this->assertValidImage($img);
     }
 
-    public function testMapperLoad()
+    public function testMapperLoad(): void
     {
         FOO::$handle = imagecreate(10, 10);
         $filename = IMG_PATH . 'image.foo';
@@ -247,7 +253,7 @@ class WideImageTest extends WideImage_TestCase
         unset($img);
     }
 
-    public function testLoadFromFileFallbackToLoadFromString()
+    public function testLoadFromFileFallbackToLoadFromString(): void
     {
         FOO::$handle = imagecreate(10, 10);
         $filename = IMG_PATH . 'image-actually-foo.foo2';
@@ -260,58 +266,53 @@ class WideImageTest extends WideImage_TestCase
         unset($img);
     }
 
-    public function testMapperSaveToFile()
+    public function testMapperSaveToFile(): void
     {
-        $img = WideImage::load(IMG_PATH . 'fgnl.jpg');
+        $img = $this->load('fgnl.jpg');
         $img->saveToFile('test.foo', '123', 789);
         $this->assertEquals(FOO::$calls['save'], [$img->getHandle(), 'test.foo', '123', 789]);
     }
 
-    public function testMapperAsString()
+    public function testMapperAsString(): void
     {
-        $img = WideImage::load(IMG_PATH . 'fgnl.jpg');
+        $img = $this->load('fgnl.jpg');
         $str = $img->asString('foo', '123', 789);
         $this->assertEquals(FOO::$calls['save'], [$img->getHandle(), null, '123', 789]);
         $this->assertEquals('out', $str);
     }
 
-    /**
-     * @expectedException \WideImage\Exception\InvalidImageSourceException
-     */
-    public function testInvalidImageFile()
+    public function testInvalidImageFile(): void
     {
+        $this->expectException(InvalidImageSourceException::class);
+
         WideImage::loadFromFile(IMG_PATH . 'fakeimage.png');
     }
 
-    /**
-     * @expectedException WideImage\Exception\InvalidImageSourceException
-     */
-    public function testEmptyString()
+    public function testEmptyString(): void
     {
+        $this->expectException(InvalidImageSourceException::class);
+
         WideImage::load('');
     }
 
-    /**
-     * @expectedException WideImage\Exception\InvalidImageSourceException
-     */
-    public function testInvalidImageStringData()
+    public function testInvalidImageStringData(): void
     {
+        $this->expectException(InvalidImageSourceException::class);
+
         WideImage::loadFromString('asdf');
     }
 
-    /**
-     * @expectedException WideImage\Exception\InvalidImageSourceException
-     */
-    public function testInvalidImageHandle()
+    public function testInvalidImageHandle(): void
     {
+        $this->expectException(InvalidImageSourceException::class);
+
         WideImage::loadFromHandle(0);
     }
 
-    /**
-     * @expectedException WideImage\Exception\InvalidImageSourceException
-     */
-    public function testInvalidImageUploadField()
+    public function testInvalidImageUploadField(): void
     {
+        $this->expectException(InvalidImageSourceException::class);
+
         WideImage::loadFromUpload('xyz');
     }
 }

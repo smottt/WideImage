@@ -1,47 +1,39 @@
 <?php
-    /**
-    This file is part of WideImage.
 
-    WideImage is free software; you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation; either version 2.1 of the License, or
-    (at your option) any later version.
+/**
+ * This file is part of WideImage.
+ *
+ * WideImage is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * WideImage is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with WideImage; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ **/
 
-    WideImage is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public License
-    along with WideImage; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    * @package Tests
-  **/
+declare(strict_types = 1);
 
 namespace Test\WideImage\Operation;
 
-use WideImage\WideImage;
+use Test\WideImageTestCase;
 use WideImage\PaletteImage;
 use WideImage\TrueColorImage;
-use Test\WideImage_TestCase;
 
-/**
- * @package Tests
- */
-class AsGrayscaleTest extends WideImage_TestCase
+class AsGrayscaleTest extends WideImageTestCase
 {
-    public function skip()
+    public function testTransparentGIF(): void
     {
-        $this->skipUnless(function_exists('imagefilter'));
-    }
-    
-    public function testTransparentGIF()
-    {
-        $img = WideImage::load(IMG_PATH . '100x100-color-hole.gif');
-        
+        $img = $this->load('100x100-color-hole.gif');
+
         $gray = $img->asGrayscale();
-        $this->assertTrue($gray instanceof PaletteImage);
+        $this->assertInstanceOf(PaletteImage::class, $gray);
         
         $this->assertEquals(100, $gray->getWidth());
         $this->assertEquals(100, $gray->getHeight());
@@ -56,26 +48,26 @@ class AsGrayscaleTest extends WideImage_TestCase
         $this->assertEquals($gray->getColorAt(50, 50), $gray->getTransparentColor());
     }
     
-    public function testTransparentLogoGIF()
+    public function testTransparentLogoGIF(): void
     {
         $img = $this->load('logo.gif');
         $this->assertTransparentColorAt($img, 1, 1);
         
         $res = $img->asGrayscale();
         $this->assertDimensions($res, 150, 23);
-        $this->assertInstanceOf("WideImage\\PaletteImage", $res);
+        $this->assertInstanceOf(PaletteImage::class, $res);
         
         // preserves transparency
         $this->assertTrue($res->isTransparent());
         $this->assertTransparentColorAt($res, 1, 1);
     }
     
-    public function testPNGAlpha()
+    public function testPNGAlpha(): void
     {
-        $img = WideImage::load(IMG_PATH . '100x100-blue-alpha.png');
+        $img = $this->load('100x100-blue-alpha.png');
         
         $gray = $img->asGrayscale();
-        $this->assertTrue($gray instanceof TrueColorImage);
+        $this->assertInstanceOf(TrueColorImage::class, $gray);
         $this->assertEquals(100, $gray->getWidth());
         $this->assertEquals(100, $gray->getHeight());
         
