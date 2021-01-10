@@ -21,6 +21,7 @@
 
 namespace Test\WideImage\Mapper;
 
+use WideImage\Mapper\BMP;
 use WideImage\WideImage;
 use WideImage\MapperFactory;
 use WideImage\vendor\de77;
@@ -32,7 +33,7 @@ use Test\WideImage_TestCase;
 class BMPTest extends WideImage_TestCase
 {
     /**
-     * @var WideImage_Mapper_BMP
+     * @var BMP
      */
     protected $mapper;
 

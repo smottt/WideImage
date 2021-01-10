@@ -100,7 +100,11 @@ class ImageTest extends WideImage_TestCase
     {
         $img = TrueColorImage::create(10, 10);
         $handle = $img->getHandle();
-        
+
+        if ($handle instanceof \GdImage) {
+            $this->markTestSkipped('As of PHP 8 auto destruct does not work');
+        }
+
         unset($img);
         
         $this->assertFalse(WideImage::isValidImageHandle($handle));

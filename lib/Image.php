@@ -35,7 +35,7 @@ abstract class Image
 {
     /**
      * Holds the image resource
-     * @var resource
+     * @var resource|\GdImage
      */
     protected $handle = null;
 
@@ -86,7 +86,11 @@ abstract class Image
     public function destroy()
     {
         if ($this->isValid() && !$this->handleReleased) {
-            imagedestroy($this->handle);
+            if (is_resource($this->handle)) {
+                imagedestroy($this->handle);
+            } elseif ($this->handle instanceof \GdImage) {
+                unset($this->handle);
+            }
         }
 
         $this->handle = null;

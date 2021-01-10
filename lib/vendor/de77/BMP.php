@@ -46,7 +46,7 @@ class BMP
 		$hei     = imagesy($img);
 		$wid_pad = str_pad('', $wid % 4, "\0");
 
-		$size = 54 + ($wid + $wid_pad) * $hei * 3; //fixed
+		$size = 54 + ($wid * 3 + strlen($wid_pad)) * $hei; //fixed
 
 		//prepare & save header
 		$header                     = [];
