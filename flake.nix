@@ -34,9 +34,6 @@
             # Composer and PHP.
             php
             php.packages.composer
-
-            # Source code checking.
-            php.packages.php-cs-fixer
           ];
         };
       };

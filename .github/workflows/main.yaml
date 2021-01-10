@@ -59,7 +59,7 @@ jobs:
 
       - name: Lint source code
         if: matrix.cs_fixer
-        run: nix-shell --run 'php-cs-fixer fix'
+        run: nix-shell --run 'composer cs-check'
 
       - name: Run unit tests
         run: nix-shell --run 'composer test'
