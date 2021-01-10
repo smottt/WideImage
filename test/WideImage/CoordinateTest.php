@@ -100,11 +100,9 @@ class CoordinateTest extends WideImage_TestCase
         $this->assertSame(90, Coordinate::fix('100--++++-10', 200));
     }
     
-    /**
-     * @expectedException WideImage\Exception\InvalidCoordinateException
-     */
     public function testInvalidSyntaxEndsWithOperator()
     {
+        $this->expectException(\WideImage\Exception\InvalidCoordinateException::class);
         Coordinate::fix('5+2+', 10);
     }
 }

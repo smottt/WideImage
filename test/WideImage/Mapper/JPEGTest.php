@@ -32,12 +32,18 @@ class JPEGTest extends WideImage_TestCase
 {
     protected $mapper;
     
-    public function setup()
+    /**
+     * @before
+     */
+    public function doSetUp()
     {
         $this->mapper = MapperFactory::selectMapper(null, 'jpg');
     }
     
-    public function teardown()
+    /**
+     * @after
+     */
+    public function doTearDown()
     {
         $this->mapper = null;
         

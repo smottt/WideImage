@@ -37,12 +37,18 @@ class TGATest extends WideImage_TestCase
      */
     protected $mapper;
     
-    public function setup()
+    /**
+     * @before
+     */
+    public function doSetUp()
     {
         $this->mapper = MapperFactory::selectMapper(null, 'tga');
     }
     
-    public function teardown()
+    /**
+     * @after
+     */
+    public function doTearDown()
     {
         $this->mapper = null;
     }
@@ -56,20 +62,16 @@ class TGATest extends WideImage_TestCase
         imagedestroy($handle);
     }
     
-    /**
-     * @expectedException WideImage\Exception\Exception
-     */
     public function testSaveToStringNotSupported()
     {
+        $this->expectException(\WideImage\Exception\Exception::class);
         $handle = de77\BMP::imagecreatefrombmp(IMG_PATH . 'splat.tga');
         $this->mapper->save($handle);
     }
     
-    /**
-     * @expectedException WideImage\Exception\Exception
-     */
     public function testSaveToFileNotSupported()
     {
+        $this->expectException(\WideImage\Exception\Exception::class);
         $handle = imagecreatefromgif(IMG_PATH . '100x100-color-hole.gif');
         $this->mapper->save($handle, IMG_PATH . 'temp' . DIRECTORY_SEPARATOR . 'test.bmp');
     }

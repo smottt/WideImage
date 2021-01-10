@@ -93,20 +93,16 @@ class CropTest extends WideImage_TestCase
         $this->assertEquals(100, $cropped->getHeight());
     }
 
-    /**
-     * @expectedException WideImage\Exception\Exception
-     */
     public function testCropCutsAreaOutsideBoundaries()
     {
+        $this->expectException(\WideImage\Exception\Exception::class);
         $img = WideImage::load(IMG_PATH . '100x100-blue-alpha.png');
         $img->crop(120, 100, 1, 2);
     }
 
-    /**
-     * @expectedException WideImage\Exception\Exception
-     */
     public function testCropCutsAreaNegativePosition()
     {
+        $this->expectException(\WideImage\Exception\Exception::class);
         $img = WideImage::load(IMG_PATH . '100x100-blue-alpha.png');
         $img->crop(-150, -200, 50, 50);
     }

@@ -39,11 +39,9 @@ class OperationFactoryTest extends WideImage_TestCase
         $this->assertSame($op1, $op2);
     }
 
-    /**
-     * @expectedException WideImage\Exception\UnknownImageOperationException
-     */
     public function testNoOperation()
     {
+        $this->expectException(\WideImage\Exception\UnknownImageOperationException::class);
         OperationFactory::get('NoSuchOp');
     }
 

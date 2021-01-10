@@ -39,13 +39,19 @@ class WideImageTest extends WideImage_TestCase
 {
     protected $_FILES;
 
-    public function setup()
+    /**
+     * @before
+     */
+    public function doSetUp()
     {
         $this->_FILES = $_FILES;
         $_FILES = [];
     }
 
-    public function teardown()
+    /**
+     * @after
+     */
+    public function doTearDown()
     {
         $_FILES = $this->_FILES;
 
@@ -151,7 +157,13 @@ class WideImageTest extends WideImage_TestCase
         ];
 
         $images = WideImage::loadFromUpload('testupl');
-        $this->assertInternalType("array", $images);
+        if (method_exists($this, 'assertIsArray')) {
+            // PHPUnit ≥ 8.0
+            $this->assertIsArray($images);
+        } else {
+            // PHPUnit < 8.0
+            $this->assertInternalType("array", $images);
+        }
         $this->assertValidImage($images[0]);
         $this->assertValidImage($images[1]);
 
@@ -212,11 +224,9 @@ class WideImageTest extends WideImage_TestCase
         $this->assertValidImage($img);
     }
 
-    /**
-     * @expectedException WideImage\Exception\InvalidImageSourceException
-     */
     public function testLoadFromStringEmpty()
     {
+        $this->expectException(InvalidImageSourceException::class);
         WideImage::loadFromString('');
     }
 
@@ -275,43 +285,33 @@ class WideImageTest extends WideImage_TestCase
         $this->assertEquals('out', $str);
     }
 
-    /**
-     * @expectedException \WideImage\Exception\InvalidImageSourceException
-     */
     public function testInvalidImageFile()
     {
+        $this->expectException(InvalidImageSourceException::class);
         WideImage::loadFromFile(IMG_PATH . 'fakeimage.png');
     }
 
-    /**
-     * @expectedException WideImage\Exception\InvalidImageSourceException
-     */
     public function testEmptyString()
     {
+        $this->expectException(InvalidImageSourceException::class);
         WideImage::load('');
     }
 
-    /**
-     * @expectedException WideImage\Exception\InvalidImageSourceException
-     */
     public function testInvalidImageStringData()
     {
+        $this->expectException(InvalidImageSourceException::class);
         WideImage::loadFromString('asdf');
     }
 
-    /**
-     * @expectedException WideImage\Exception\InvalidImageSourceException
-     */
     public function testInvalidImageHandle()
     {
+        $this->expectException(InvalidImageSourceException::class);
         WideImage::loadFromHandle(0);
     }
 
-    /**
-     * @expectedException WideImage\Exception\InvalidImageSourceException
-     */
     public function testInvalidImageUploadField()
     {
+        $this->expectException(InvalidImageSourceException::class);
         WideImage::loadFromUpload('xyz');
     }
 }
