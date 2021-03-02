@@ -1,0 +1,65 @@
+# This file lints the code and runs tests.
+name: CI
+
+on:
+  pull_request:
+  push:
+
+env:
+  COMPOSER_FLAGS: "--ansi --no-interaction --no-progress --no-suggest --prefer-dist"
+
+jobs:
+  tests:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        php:
+          - '8.0'
+          - '7.4'
+          - '7.3'
+          - '7.2'
+          - '7.1'
+          - '7.0'
+          - '5.6'
+        include:
+          - php: '7.0'
+            cs_fixer: true
+    name: 'Check with PHP ${{ matrix.php }}'
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v12
+
+      - name: Set up Nix cache
+        uses: cachix/cachix-action@v8
+        with:
+          # Use cache from https://github.com/fossar/nix-phps
+          name: fossar
+
+      - name: Update flake.nix to match the current CI job from matrix
+        run: sed -i 's/matrix.phpPackage = "php";/matrix.phpPackage = builtins.replaceStrings ["."] [""] "php${{ matrix.php }}";/' flake.nix
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v2
+        env:
+          cache-name: cache-composer-modules
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: nix-shell --run 'composer install'
+
+      - name: Lint source code
+        if: matrix.cs_fixer
+        run: nix-shell --run 'composer cs-check'
+
+      - name: Run unit tests
+        run: nix-shell --run 'composer test'
