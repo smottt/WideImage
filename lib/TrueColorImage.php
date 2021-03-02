@@ -275,8 +275,7 @@ class TrueColorImage extends Image
         $alignTop = 'center',
         $mergeOpacity = 100,
         $fillColor = null
-    )
-    {
+    ) {
         if ($fillColor) {
             if (is_numeric($fillColor)) {
                 $fillColor = $this->getColorRGB($fillColor);
